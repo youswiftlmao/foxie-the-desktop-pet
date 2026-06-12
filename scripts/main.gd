@@ -6,7 +6,7 @@ var direction = Vector2(1, 0)
 #behavior vars 
 
 var current_state = State.MOVE
-
+var state_timer := 0.0
 enum State {
 	MOVE,
 	IDLE,
@@ -18,7 +18,8 @@ enum State {
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#more behavior code
-	$AnimatedSprite2D.animation_finished.connect(_on_animation_finished)
+	change_state(State.MOVE)
+	state_timer = randf_range(3, 6)
 	
 	
 	#to acces the os window not js the godot one 
@@ -49,15 +50,21 @@ func _ready() -> void:
 	$AnimatedSprite2D.frame_changed.connect(updmousemask)
 
 	
-	change_state(State.MOVE)
+
+	
+func _process(delta: float) -> void:
+	state_timer -= delta
+	
+	if state_timer > 0:
+		return
+		
+	_on_state_timer_end()
 func _physics_process(delta):
 
-	if current_state != State.MOVE:
-		return
-
 	var window = get_window()
-	var move_vector = Vector2i(direction * movespeed)
-	window.position += move_vector
+	if current_state == State.MOVE:
+		var move_vector = Vector2i(direction * movespeed)
+		window.position += move_vector
 	
 	#the zone or safezone where it interacts at lmao
 	var usable_rect = DisplayServer.screen_get_usable_rect()
@@ -108,7 +115,48 @@ func change_state(new_state):
 		State.SLEEP:
 			$AnimatedSprite2D.play("sleep")
 			
-func _on_animation_finished():
+
+
+func _on_state_timer_end():
+	var r = randf()
+
+	if current_state == State.MOVE:
+		if r < 0.6:
+			change_state(State.IDLE)
+			state_timer = randf_range(2, 5)
+		elif r < 0.85:
+			change_state(State.LOOK)
+			state_timer = randf_range(2, 4)
+		else:
+			change_state(State.SLEEP)
+			state_timer = randf_range(5, 10)
+
+	elif current_state == State.IDLE:
+		if r < 0.5:
+			change_state(State.MOVE)
+			state_timer = randf_range(2, 4)
+		else:
+			change_state(State.LOOK)
+			state_timer = randf_range(2, 4)
+
+	elif current_state == State.LOOK:
+		if r < 0.5:
+			change_state(State.IDLE)
+			state_timer = randf_range(2, 4)
+		else:
+			change_state(State.MOVE)
+			state_timer = randf_range(2, 5)
+
+	elif current_state == State.SLEEP:
+		if r < 0.7:
+			change_state(State.MOVE)
+			state_timer = randf_range(3, 6)
+		else:
+			change_state(State.SLEEP)
+			state_timer = randf_range(5, 10)
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
 
 	match current_state:
 

@@ -386,5 +386,11 @@ script = ExtResource("1_0wfyh")
 position = Vector2(121, 79)
 scale = Vector2(10.003074, 10.003074)
 sprite_frames = SubResource("SpriteFrames_jkv2x")
-animation = &"scare"
-frame_progress = 1.0
+animation = &"sleep"
+
+[node name="BehaviorTimer" type="Timer" parent="." unique_id=516475822]
+wait_time = 3.0
+autostart = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="timeout" from="BehaviorTimer" to="." method="_on_behavior_timer_timeout"]
