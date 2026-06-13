@@ -71,6 +71,13 @@ func _process(delta: float) -> void:
 	
 	#for slower sped while low enegry or like low hunger
 	$AnimatedSprite2D.speed_scale = clamp(energy / 100.0, 0.4, 1.0)
+	
+	if hunger <=0 :
+		hunger = 0
+	if happy <=0 :
+		happy = 0
+	if energy <=0 :
+		energy = 0
 func _physics_process(delta):
 	
 	var window = get_window()
