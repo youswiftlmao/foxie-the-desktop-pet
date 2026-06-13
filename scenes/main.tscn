@@ -2,6 +2,11 @@
 
 [ext_resource type="Script" uid="uid://ddudk14ld30cv" path="res://scripts/main.gd" id="1_0wfyh"]
 [ext_resource type="Texture2D" uid="uid://ccsomyrrwkflg" path="res://assets/Fox Sprite Sheet.png" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://eoxbvtjucj2q" path="res://scripts/statwindow.gd" id="3_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://cwioj7av5g70" path="res://assets/gui bg.png" id="3_tefeu"]
+[ext_resource type="Texture2D" uid="uid://t0st2shu3oac" path="res://assets/happyindicator.png" id="4_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://bq6j5e3vbul1g" path="res://assets/hunger indicaotr.png" id="5_tipki"]
+[ext_resource type="Texture2D" uid="uid://0xlr5aqdsd60" path="res://assets/sleep indicator.png" id="6_85g3d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0wfyh"]
 atlas = ExtResource("1_o5qli")
@@ -393,7 +398,7 @@ size = Vector2(1.8123273, 2.250845)
 script = ExtResource("1_0wfyh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=190967039]
-position = Vector2(121, 79)
+position = Vector2(121, 78)
 scale = Vector2(10.003074, 10.003074)
 sprite_frames = SubResource("SpriteFrames_jkv2x")
 animation = &"scare"
@@ -443,6 +448,36 @@ autostart = true
 
 [node name="pet stat timer" type="Timer" parent="." unique_id=1194400165]
 autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1529381292]
+
+[node name="StatsWindow" type="Window" parent="CanvasLayer" unique_id=1563358252]
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(300, 300)
+visible = false
+always_on_top = true
+script = ExtResource("3_o6xl0")
+
+[node name="Statpanel" type="Sprite2D" parent="CanvasLayer/StatsWindow" unique_id=361952492]
+position = Vector2(152, 152)
+scale = Vector2(4.6329575, 4.6329575)
+texture = ExtResource("3_tefeu")
+
+[node name="Happyindicator" type="Sprite2D" parent="CanvasLayer/StatsWindow/Statpanel" unique_id=1094413521]
+position = Vector2(-19.164371, -9.177305)
+scale = Vector2(0.18894449, 0.18894449)
+texture = ExtResource("4_o6xl0")
+
+[node name="HungerIndicaotr" type="Sprite2D" parent="CanvasLayer/StatsWindow/Statpanel" unique_id=586327018]
+position = Vector2(-19.164371, 4.3187313)
+scale = Vector2(0.18894449, 0.18894449)
+texture = ExtResource("5_tipki")
+
+[node name="SleepIndicator" type="Sprite2D" parent="CanvasLayer/StatsWindow/Statpanel" unique_id=1902523735]
+position = Vector2(-19.164371, 17.814766)
+scale = Vector2(0.18894449, 0.18894449)
+texture = ExtResource("6_85g3d")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="input_event" from="AnimatedSprite2D/body area" to="." method="_on_body_area_input_event"]

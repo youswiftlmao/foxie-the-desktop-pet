@@ -4,6 +4,7 @@ var movespeed = 3
 var direction = Vector2(1, 0) 
 
 #behavior vars 
+@onready var stats_window = $CanvasLayer/StatsWindow
 
 var current_state = State.MOVE
 var state_timer := 0.0
@@ -78,6 +79,10 @@ func _process(delta: float) -> void:
 		happy = 0
 	if energy <=0 :
 		energy = 0
+		
+		
+		
+
 func _physics_process(delta):
 	
 	var window = get_window()
@@ -115,7 +120,8 @@ func updmousemask():
 
 	DisplayServer.window_set_mouse_passthrough(polygons)
 
-
+	print(polygons.size())
+	
 #behavioral funcs YAYYAYAYYA
 func change_state(new_state):
 	current_state = new_state
@@ -177,6 +183,9 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 
 func _on_body_area_input_event(viewport, event, shape_idx) -> void:
 	if event is InputEventMouseButton and event.pressed:
+		
+		stats_window.visible = !stats_window.visible
+		
 		change_state(State.IDLE)
 		state_timer = 5
 
@@ -188,21 +197,23 @@ func _on_scarearea_input_event(viewport: Node, event: InputEvent, shape_idx: int
 
 
 func _on_pet_stat_timer_timeout() -> void:
-	hunger  -= 1
+	hunger  -= 0.3
 
-	happy -= 0.5
+	happy -= 0.2
 	
 	if current_state == State.SLEEP:
-		energy += 2.0
+		energy += 2
 	else:
-		energy -= 1
+		energy -= 0.3
 	print( "happy", happy)
 	print("energy", energy)
 	print("hunger", hunger)
 	if current_state == State.SLEEP and energy >90:
 		change_state(State.MOVE)
 		state_timer = randf_range( 2 , 5)
-		
+	hunger = clamp(hunger, 0, 100)
+	energy = clamp(energy, 0, 100)
+	happy = clamp(happy, 0, 100)
 func getspeed():
 	var speed = movespeed
 	
