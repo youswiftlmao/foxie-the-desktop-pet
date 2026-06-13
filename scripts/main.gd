@@ -15,6 +15,14 @@ enum State {
 	SCARED,
 	SLEEP
 }
+
+var hunger := 100.00
+#so its easier to work with rather then 0
+var happy := 100.00
+var energy := 100.00
+
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#more behavior code
@@ -59,11 +67,15 @@ func _process(delta: float) -> void:
 		return
 		
 	_on_state_timer_end()
+	
+	
+	#for slower sped while low enegry or like low hunger
+	$AnimatedSprite2D.speed_scale = clamp(energy / 100.0, 0.4, 1.0)
 func _physics_process(delta):
-
+	
 	var window = get_window()
 	if current_state == State.MOVE:
-		var move_vector = Vector2i(direction * movespeed)
+		var move_vector = Vector2i(direction * getspeed())
 		window.position += move_vector
 	
 	#the zone or safezone where it interacts at lmao
@@ -79,7 +91,7 @@ func _physics_process(delta):
 		direction.x = 1 
 		$AnimatedSprite2D.flip_h = false
 		updmousemask()
-		
+
 func updmousemask():
 	var anim = $AnimatedSprite2D
 	
@@ -120,40 +132,26 @@ func change_state(new_state):
 func _on_state_timer_end():
 	var r = randf()
 
-	if current_state == State.MOVE:
-		if r < 0.6:
-			change_state(State.IDLE)
-			state_timer = randf_range(2, 5)
-		elif r < 0.85:
-			change_state(State.LOOK)
-			state_timer = randf_range(2, 4)
-		else:
-			change_state(State.SLEEP)
-			state_timer = randf_range(5, 10)
+	var sleepchance = 0.05
 
-	elif current_state == State.IDLE:
-		if r < 0.5:
-			change_state(State.MOVE)
-			state_timer = randf_range(2, 4)
-		else:
-			change_state(State.LOOK)
-			state_timer = randf_range(2, 4)
-
-	elif current_state == State.LOOK:
-		if r < 0.5:
-			change_state(State.IDLE)
-			state_timer = randf_range(2, 4)
-		else:
-			change_state(State.MOVE)
-			state_timer = randf_range(2, 5)
-
-	elif current_state == State.SLEEP:
-		if r < 0.7:
-			change_state(State.MOVE)
-			state_timer = randf_range(3, 6)
-		else:
-			change_state(State.SLEEP)
-			state_timer = randf_range(5, 10)
+	if energy < 30 :
+		sleepchance += 0.25
+	if energy < 15 :
+		sleepchance += 0.35
+		
+	if r < sleepchance:
+		change_state(State.SLEEP)
+		state_timer = randf_range(15,25)
+		
+	elif r < 0.6:
+		change_state(State.IDLE)
+		state_timer = randf_range(2 , 5)
+	elif r < 0.85:
+		change_state(State.LOOK)
+		state_timer = randf_range(2 , 4)
+	else:
+		change_state(State.MOVE)
+		state_timer = randf_range(2,5)
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:
@@ -168,3 +166,47 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 
 		State.SCARED:
 			change_state(State.MOVE)
+
+
+func _on_body_area_input_event(viewport, event, shape_idx) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		change_state(State.IDLE)
+		state_timer = 5
+
+
+func _on_scarearea_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		change_state(State.SCARED)
+		happy -= 10
+
+
+func _on_pet_stat_timer_timeout() -> void:
+	hunger  -= 1
+
+	happy -= 0.5
+	
+	if current_state == State.SLEEP:
+		energy += 2.0
+	else:
+		energy -= 1
+	print( "happy", happy)
+	print("energy", energy)
+	print("hunger", hunger)
+	if current_state == State.SLEEP and energy >90:
+		change_state(State.MOVE)
+		state_timer = randf_range( 2 , 5)
+		
+func getspeed():
+	var speed = movespeed
+	
+	if energy < 50:
+		speed *= 0.7
+	if energy < 25 :
+		speed*= 0.4
+		
+	if hunger < 50:
+		speed *= 0.8
+	if hunger <20:
+		speed *= 0.5
+		
+	return speed

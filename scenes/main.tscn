@@ -353,7 +353,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"scare",
-"speed": 7.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -379,6 +379,16 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0wfyh"]
+radius = 36.512566
+height = 113.00003
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0wfyh"]
+size = Vector2(2.602274, 3.1990166)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
+size = Vector2(1.8123273, 2.250845)
+
 [node name="main" type="Node2D" unique_id=1729196233]
 script = ExtResource("1_0wfyh")
 
@@ -386,11 +396,56 @@ script = ExtResource("1_0wfyh")
 position = Vector2(121, 79)
 scale = Vector2(10.003074, 10.003074)
 sprite_frames = SubResource("SpriteFrames_jkv2x")
-animation = &"sleep"
+animation = &"scare"
+frame = 4
+frame_progress = 1.0
+
+[node name="body area" type="Area2D" parent="AnimatedSprite2D" unique_id=1807171725]
+position = Vector2(-12.096281, -7.897572)
+scale = Vector2(0.09996927, 0.09996927)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/body area" unique_id=1615972433]
+position = Vector2(134, 105.499985)
+rotation = -1.551208
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("CapsuleShape2D_0wfyh")
+
+[node name="scarearea" type="Area2D" parent="AnimatedSprite2D" unique_id=1010770314]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/scarearea" unique_id=1313577019]
+position = Vector2(8.698862, -0.39987707)
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_0wfyh")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="AnimatedSprite2D/scarearea" unique_id=709317035]
+position = Vector2(-3.9987707, 6.79791)
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_sugp2")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="AnimatedSprite2D/scarearea" unique_id=554853088]
+position = Vector2(1.9993854, 6.8978786)
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_sugp2")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="AnimatedSprite2D/scarearea" unique_id=1729737568]
+position = Vector2(-1.4995391, 6.8978796)
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_sugp2")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="AnimatedSprite2D/scarearea" unique_id=763963492]
+position = Vector2(6.0045967, 6.9236407)
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_sugp2")
 
 [node name="BehaviorTimer" type="Timer" parent="." unique_id=516475822]
 wait_time = 3.0
 autostart = true
 
+[node name="pet stat timer" type="Timer" parent="." unique_id=1194400165]
+autostart = true
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="input_event" from="AnimatedSprite2D/body area" to="." method="_on_body_area_input_event"]
+[connection signal="input_event" from="AnimatedSprite2D/scarearea" to="." method="_on_scarearea_input_event"]
 [connection signal="timeout" from="BehaviorTimer" to="." method="_on_behavior_timer_timeout"]
+[connection signal="timeout" from="pet stat timer" to="." method="_on_pet_stat_timer_timeout"]
