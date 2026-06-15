@@ -4,7 +4,9 @@ var movespeed = 3
 var direction = Vector2(1, 0) 
 
 #behavior vars 
-@onready var stats_window = $CanvasLayer/StatsWindow
+@onready var stats_window = $statslayer/CanvasLayer/StatsWindow
+
+
 
 var current_state = State.MOVE
 var state_timer := 0.0
@@ -22,10 +24,15 @@ var hunger := 100.00
 var happy := 100.00
 var energy := 100.00
 
+#statvars
+@onready var hungerbar = $hungerbar
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	updhungerbar()
+
+	
 	#more behavior code
 	change_state(State.MOVE)
 	state_timer = randf_range(3, 6)
@@ -62,6 +69,16 @@ func _ready() -> void:
 
 	
 func _process(delta: float) -> void:
+	if stats_window.visible:
+		var fox_window = get_window()
+		
+		stats_window.position = Vector2i(
+			fox_window.position.x,
+			fox_window.position.y - stats_window.size.y - 10
+		)
+	
+	
+	
 	state_timer -= delta
 	
 	if state_timer > 0:
@@ -214,6 +231,7 @@ func _on_pet_stat_timer_timeout() -> void:
 	hunger = clamp(hunger, 0, 100)
 	energy = clamp(energy, 0, 100)
 	happy = clamp(happy, 0, 100)
+	updhungerbar()
 func getspeed():
 	var speed = movespeed
 	
@@ -228,3 +246,27 @@ func getspeed():
 		speed *= 0.5
 		
 	return speed
+		
+
+func updhungerbar():
+	hungerbar.value = hunger
+
+	var t = 1.0 - (hunger / 100.0) # 0 = full, 1 = empty
+
+	var white = Color(1, 1, 1)
+	var yellow = Color(1, 1, 0)
+	var orange = Color(1, 0.5, 0)
+	var red = Color(1, 0, 0)
+
+	var c: Color
+
+	if t < 0.33:
+		c = white.lerp(yellow, t / 0.33)
+	elif t < 0.66:
+		c = yellow.lerp(orange, (t - 0.33) / 0.33)
+	else:
+		c = orange.lerp(red, (t - 0.66) / 0.34)
+
+	var fill = hungerbar.get_theme_stylebox("fill").duplicate()
+	fill.bg_color = c
+	hungerbar.add_theme_stylebox_override("fill", fill)
