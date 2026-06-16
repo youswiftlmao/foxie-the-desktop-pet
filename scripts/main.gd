@@ -84,22 +84,21 @@ func _ready() -> void:
 
 	
 func _process(delta: float) -> void:
-	if petting:
-		print("PETTING ACTIVE")
-	if petting:
+	
+
+	if petting and pettingmode:
 		var mousevel = Input.get_last_mouse_screen_velocity()
-		
-		if mousevel.length() >20:
-			change_state(State.IDLE)
-			petingtimer = 3.0
-			happy += 0.1
-			print("petts recieved")
-			happy = clamp(happy + 0.05, 0, 100)
-			
-			
-	if petingtimer > 0:
+
+		if mousevel.length() > 20:
+			happy = clamp(happy + 0.1, 0, 100)
+			print("happy")
+	if pettingmode:
 		petingtimer -= delta
-		
+
+		if petingtimer <= 0:
+			pettingmode = false
+			petting = false
+			print("petting session END")
 
 	if stats_window.visible:
 		var fox_window = get_window()
@@ -345,11 +344,9 @@ func eat_food(fw):
 
 
 func _on_petting_area_mouse_entered() -> void:
-	print("MOUSE ENTERED")
-
 	if pettingmode:
 		petting = true
-		print("PETTING TRUE")
+		print("PETTING ACTIVE fasho yes twinikei")
 
 func _on_petting_area_mouse_exited() -> void:
 	petting = false
@@ -357,4 +354,5 @@ func _on_petting_area_mouse_exited() -> void:
 
 func _on_happy_pressed() -> void:
 	pettingmode = true
-	print("pettingmode on")
+	petingtimer = 7.0
+	print("petting session START")

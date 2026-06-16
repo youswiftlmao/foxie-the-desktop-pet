@@ -430,7 +430,7 @@ bg_color = Color(1, 1, 1, 1)
 script = ExtResource("1_0wfyh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=190967039]
-position = Vector2(122, 81)
+position = Vector2(133.00003, 78.00001)
 scale = Vector2(10.003074, 10.003074)
 sprite_frames = SubResource("SpriteFrames_jkv2x")
 animation = &"scare"
