@@ -389,7 +389,7 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0wfyh"]
-radius = 36.512566
+radius = 21.495857
 height = 113.00003
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0wfyh"]
@@ -401,6 +401,15 @@ size = Vector2(1.8123273, 2.250845)
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ya4ey"]
 radius = 17.100716
 height = 65.50157
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ya4ey"]
+size = Vector2(102.75, 10.999992)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eb6dy"]
+size = Vector2(34.999954, 50.000023)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trceg"]
+size = Vector2(52.999954, 43.00004)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o6xl0"]
 bg_color = Color(0, 0, 0, 0)
@@ -433,7 +442,7 @@ position = Vector2(-12.096281, -7.897572)
 scale = Vector2(0.09996927, 0.09996927)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/body area" unique_id=1615972433]
-position = Vector2(134, 105.499985)
+position = Vector2(134, 120)
 rotation = -1.551208
 scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("CapsuleShape2D_0wfyh")
@@ -472,6 +481,25 @@ position = Vector2(6.9978485, 0.8997234)
 position = Vector2(-0.39987755, 0.5998155)
 scale = Vector2(0.19291502, 0.048838776)
 shape = SubResource("CapsuleShape2D_ya4ey")
+
+[node name="petting area" type="Area2D" parent="AnimatedSprite2D" unique_id=444223454]
+position = Vector2(-12.196251, -8.09751)
+scale = Vector2(0.09996927, 0.09996927)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/petting area" unique_id=1080026627]
+position = Vector2(117.00001, 95.99999)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_ya4ey")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="AnimatedSprite2D/petting area" unique_id=1534111197]
+position = Vector2(141.49994, 38.99998)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_eb6dy")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="AnimatedSprite2D/petting area" unique_id=1489745091]
+position = Vector2(184.4999, 42.49998)
+scale = Vector2(0.9999995, 0.9999995)
+shape = SubResource("RectangleShape2D_trceg")
 
 [node name="BehaviorTimer" type="Timer" parent="." unique_id=516475822]
 wait_time = 3.0
@@ -635,6 +663,9 @@ region_rect = Rect2(2.6365585, 5.41646, 24.647812, 24.226479)
 [connection signal="input_event" from="AnimatedSprite2D/body area" to="." method="_on_body_area_input_event"]
 [connection signal="input_event" from="AnimatedSprite2D/scarearea" to="." method="_on_scarearea_input_event"]
 [connection signal="body_entered" from="AnimatedSprite2D/moutharea" to="." method="_on_moutharea_body_entered"]
+[connection signal="mouse_entered" from="AnimatedSprite2D/petting area" to="." method="_on_petting_area_mouse_entered"]
+[connection signal="mouse_exited" from="AnimatedSprite2D/petting area" to="." method="_on_petting_area_mouse_exited"]
 [connection signal="timeout" from="BehaviorTimer" to="." method="_on_behavior_timer_timeout"]
 [connection signal="timeout" from="pet stat timer" to="." method="_on_pet_stat_timer_timeout"]
+[connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/happy+" to="." method="_on_happy_pressed"]
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/hunger+" to="." method="_on_hunger_pressed"]

@@ -39,7 +39,9 @@ var energy := 100.00
 @onready var happybar = $statslayer/CanvasLayer/StatsWindow/Happybar
 @onready var sleepybar = $statslayer/CanvasLayer/StatsWindow/sleepybar
 
-
+var petting = false
+var petingtimer = 0.0
+var pettingmode = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
@@ -76,12 +78,29 @@ func _ready() -> void:
 	
 	updmousemask()
 	
-	$AnimatedSprite2D.frame_changed.connect(updmousemask)
+
 
 	
 
 	
 func _process(delta: float) -> void:
+	if petting:
+		print("PETTING ACTIVE")
+	if petting:
+		var mousevel = Input.get_last_mouse_screen_velocity()
+		
+		if mousevel.length() >20:
+			change_state(State.IDLE)
+			petingtimer = 3.0
+			happy += 0.1
+			print("petts recieved")
+			happy = clamp(happy + 0.05, 0, 100)
+			
+			
+	if petingtimer > 0:
+		petingtimer -= delta
+		
+
 	if stats_window.visible:
 		var fox_window = get_window()
 		
@@ -122,7 +141,8 @@ func _process(delta: float) -> void:
 		
 
 func _physics_process(delta):
-	
+	if petting:
+		return
 	var window = get_window()
 	if current_state == State.MOVE:
 		var move_vector = Vector2i(direction * getspeed())
@@ -156,7 +176,7 @@ func updmousemask():
 	
 	var polygons = bitmap.opaque_to_polygons(Rect2(Vector2.ZERO, texture.get_size()), 0.1)
 
-	DisplayServer.window_set_mouse_passthrough(polygons)
+
 
 	
 	
@@ -181,6 +201,12 @@ func change_state(new_state):
 
 
 func _on_state_timer_end():
+		
+	if petingtimer > 0:
+		change_state(State.IDLE)
+		state_timer = 0.2
+		return
+		
 	var r = randf()
 
 	var sleepchance = 0.05
@@ -316,3 +342,19 @@ func eat_food(fw):
 
 	fw.stop_food()
 	updui()
+
+
+func _on_petting_area_mouse_entered() -> void:
+	print("MOUSE ENTERED")
+
+	if pettingmode:
+		petting = true
+		print("PETTING TRUE")
+
+func _on_petting_area_mouse_exited() -> void:
+	petting = false
+	print("MOUSE GONE")
+
+func _on_happy_pressed() -> void:
+	pettingmode = true
+	print("pettingmode on")
