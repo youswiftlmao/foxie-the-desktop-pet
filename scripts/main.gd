@@ -2,11 +2,21 @@ extends Node2D
 
 var movespeed = 3
 var direction = Vector2(1, 0) 
-
+@onready var food_window = $"food window"
 #behavior vars 
 @onready var stats_window = $statslayer/CanvasLayer/StatsWindow
+#feeding vars ig im hungry
+var food = [
+	{"name": "apple","hunger": 10},
+	{"name": "meat","hunger": 25},
+	{"name": "egg","hunger": 15},
+	{"name": "fish","hunger": 15},
+	{"name": "cake","hunger": 10},
+ ]
 
+var currentfood = {}
 
+var holding_food := false
 
 var current_state = State.MOVE
 var state_timer := 0.0
@@ -25,12 +35,15 @@ var happy := 100.00
 var energy := 100.00
 
 #statvars
-@onready var hungerbar = $hungerbar
+@onready var hungerbar = $statslayer/CanvasLayer/StatsWindow/hungerbar
+@onready var happybar = $statslayer/CanvasLayer/StatsWindow/Happybar
+@onready var sleepybar = $statslayer/CanvasLayer/StatsWindow/sleepybar
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	updhungerbar()
+
+	updui()
 
 	
 	#more behavior code
@@ -72,6 +85,10 @@ func _process(delta: float) -> void:
 	if stats_window.visible:
 		var fox_window = get_window()
 		
+		
+		
+
+			
 		stats_window.position = Vector2i(
 			fox_window.position.x,
 			fox_window.position.y - stats_window.size.y - 10
@@ -97,7 +114,11 @@ func _process(delta: float) -> void:
 	if energy <=0 :
 		energy = 0
 		
-		
+	if food_window.holding:
+		var mouth_pos = Vector2(get_window().position) + $AnimatedSprite2D/moutharea.global_position
+		var food_pos = Vector2(food_window.position) + Vector2(food_window.size) / 2.0
+		if mouth_pos.distance_to(food_pos) < 20:
+			eat_food(food_window)
 		
 
 func _physics_process(delta):
@@ -137,7 +158,7 @@ func updmousemask():
 
 	DisplayServer.window_set_mouse_passthrough(polygons)
 
-	print(polygons.size())
+	
 	
 #behavioral funcs YAYYAYAYYA
 func change_state(new_state):
@@ -199,10 +220,11 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 
 
 func _on_body_area_input_event(viewport, event, shape_idx) -> void:
+	
+	
 	if event is InputEventMouseButton and event.pressed:
-		
+
 		stats_window.visible = !stats_window.visible
-		
 		change_state(State.IDLE)
 		state_timer = 5
 
@@ -231,7 +253,9 @@ func _on_pet_stat_timer_timeout() -> void:
 	hunger = clamp(hunger, 0, 100)
 	energy = clamp(energy, 0, 100)
 	happy = clamp(happy, 0, 100)
-	updhungerbar()
+
+	updui()
+	
 func getspeed():
 	var speed = movespeed
 	
@@ -248,10 +272,10 @@ func getspeed():
 	return speed
 		
 
-func updhungerbar():
-	hungerbar.value = hunger
+func updbars(bar , value):
+	bar.value = value
 
-	var t = 1.0 - (hunger / 100.0) # 0 = full, 1 = empty
+	var t = 1.0 - (value / 100.0) # 0 = full, 1 = empty
 
 	var white = Color(1, 1, 1)
 	var yellow = Color(1, 1, 0)
@@ -267,6 +291,28 @@ func updhungerbar():
 	else:
 		c = orange.lerp(red, (t - 0.66) / 0.34)
 
-	var fill = hungerbar.get_theme_stylebox("fill").duplicate()
+	var fill = bar.get_theme_stylebox("fill").duplicate()
 	fill.bg_color = c
-	hungerbar.add_theme_stylebox_override("fill", fill)
+	bar.add_theme_stylebox_override("fill", fill)
+	
+func updui():
+	updbars(hungerbar, hunger)
+	updbars(happybar, happy)
+	updbars(sleepybar, energy)
+
+
+
+
+func pickfood():
+	currentfood = food.pick_random()
+	food_window.start_food(currentfood)
+
+func _on_hunger_pressed() -> void:
+	pickfood()
+	
+func eat_food(fw):
+	hunger += fw.food_data["hunger"]
+	hunger = clamp(hunger, 0, 100)
+
+	fw.stop_food()
+	updui()

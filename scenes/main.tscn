@@ -7,6 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://t0st2shu3oac" path="res://assets/happyindicator.png" id="4_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://bq6j5e3vbul1g" path="res://assets/hunger indicaotr.png" id="5_tipki"]
 [ext_resource type="Texture2D" uid="uid://0xlr5aqdsd60" path="res://assets/sleep indicator.png" id="6_85g3d"]
+[ext_resource type="FontFile" uid="uid://bh6jvsa7eqolq" path="res://text/Jersey10-Regular.ttf" id="8_tipki"]
+[ext_resource type="Texture2D" uid="uid://cdh7a4un3233t" path="res://assets/interaction button.png" id="9_85g3d"]
+[ext_resource type="Texture2D" uid="uid://nm75pplo4x6d" path="res://assets/pixel_food_icons_sheet.png" id="10_choun"]
+[ext_resource type="Script" uid="uid://cenovfmomj7k2" path="res://scripts/food_window.gd" id="10_ya4ey"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0wfyh"]
 atlas = ExtResource("1_o5qli")
@@ -389,10 +393,14 @@ radius = 36.512566
 height = 113.00003
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0wfyh"]
-size = Vector2(2.602274, 3.1990166)
+size = Vector2(2.599204, 2.2992935)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
 size = Vector2(1.8123273, 2.250845)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ya4ey"]
+radius = 17.100716
+height = 65.50157
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o6xl0"]
 bg_color = Color(0, 0, 0, 0)
@@ -413,7 +421,7 @@ bg_color = Color(1, 1, 1, 1)
 script = ExtResource("1_0wfyh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=190967039]
-position = Vector2(121, 78)
+position = Vector2(122, 81)
 scale = Vector2(10.003074, 10.003074)
 sprite_frames = SubResource("SpriteFrames_jkv2x")
 animation = &"scare"
@@ -433,7 +441,7 @@ shape = SubResource("CapsuleShape2D_0wfyh")
 [node name="scarearea" type="Area2D" parent="AnimatedSprite2D" unique_id=1010770314]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/scarearea" unique_id=1313577019]
-position = Vector2(8.698862, -0.39987707)
+position = Vector2(8.697327, -0.8497386)
 scale = Vector2(0.9999999, 0.9999999)
 shape = SubResource("RectangleShape2D_0wfyh")
 
@@ -456,6 +464,14 @@ shape = SubResource("RectangleShape2D_sugp2")
 position = Vector2(6.0045967, 6.9236407)
 scale = Vector2(0.9999999, 0.9999999)
 shape = SubResource("RectangleShape2D_sugp2")
+
+[node name="moutharea" type="Area2D" parent="AnimatedSprite2D" unique_id=93727658]
+position = Vector2(6.9978485, 0.8997234)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/moutharea" unique_id=1925290061]
+position = Vector2(-0.39987755, 0.5998155)
+scale = Vector2(0.19291502, 0.048838776)
+shape = SubResource("CapsuleShape2D_ya4ey")
 
 [node name="BehaviorTimer" type="Timer" parent="." unique_id=516475822]
 wait_time = 3.0
@@ -497,17 +513,128 @@ position = Vector2(-19.164371, 17.814766)
 scale = Vector2(0.18894449, 0.18894449)
 texture = ExtResource("6_85g3d")
 
-[node name="hungerbar" type="ProgressBar" parent="." unique_id=1127517431]
-offset_right = 100.0
-offset_bottom = 20.0
+[node name="hungerbar" type="ProgressBar" parent="statslayer/CanvasLayer/StatsWindow" unique_id=1127517431]
+offset_left = 99.0
+offset_top = 159.00002
+offset_right = 199.0
+offset_bottom = 179.00002
+scale = Vector2(1.4, 1.4)
 theme_override_styles/background = SubResource("StyleBoxFlat_o6xl0")
 theme_override_styles/fill = SubResource("StyleBoxFlat_tipki")
 value = 100.0
 show_percentage = false
 metadata/_edit_use_anchors_ = true
 
+[node name="Happybar" type="ProgressBar" parent="statslayer/CanvasLayer/StatsWindow" unique_id=2117386352]
+offset_left = 99.0
+offset_top = 96.0
+offset_right = 199.0
+offset_bottom = 116.0
+scale = Vector2(1.4, 1.4)
+theme_override_styles/background = SubResource("StyleBoxFlat_o6xl0")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tipki")
+value = 100.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="sleepybar" type="ProgressBar" parent="statslayer/CanvasLayer/StatsWindow" unique_id=1285589629]
+offset_left = 99.0
+offset_top = 219.0
+offset_right = 199.0
+offset_bottom = 239.0
+scale = Vector2(1.4, 1.4)
+theme_override_styles/background = SubResource("StyleBoxFlat_o6xl0")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tipki")
+value = 100.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="statslayer/CanvasLayer/StatsWindow" unique_id=183116197]
+offset_left = 61.000008
+offset_top = 10.000002
+offset_right = 1861.3906
+offset_bottom = 610.50586
+scale = Vector2(0.10657681, 0.10657681)
+theme_override_constants/shadow_outline_size = 15
+theme_override_constants/outline_size = 108
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 640
+text = " Stats:"
+
+[node name="happy+" type="TextureButton" parent="statslayer/CanvasLayer/StatsWindow" unique_id=471324180]
+offset_left = 248.0
+offset_top = 95.0
+offset_right = 288.0
+offset_bottom = 135.0
+scale = Vector2(0.7906923, 0.7906923)
+texture_normal = ExtResource("9_85g3d")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="hunger+" type="TextureButton" parent="statslayer/CanvasLayer/StatsWindow" unique_id=887901778]
+offset_left = 248.0
+offset_top = 157.0
+offset_right = 288.0
+offset_bottom = 197.0
+scale = Vector2(0.7906923, 0.7906923)
+texture_normal = ExtResource("9_85g3d")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="sleep+" type="TextureButton" parent="statslayer/CanvasLayer/StatsWindow" unique_id=496958110]
+offset_left = 248.0
+offset_top = 219.0
+offset_right = 288.0
+offset_bottom = 259.0
+scale = Vector2(0.7906923, 0.7906923)
+texture_normal = ExtResource("9_85g3d")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="food window" type="Window" parent="." unique_id=1187842874]
+transparent_bg = true
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(32, 32)
+unresizable = true
+always_on_top = true
+transparent = true
+script = ExtResource("10_ya4ey")
+
+[node name="meat" type="Sprite2D" parent="food window" unique_id=1598508060]
+position = Vector2(18, 15)
+texture = ExtResource("10_choun")
+region_enabled = true
+region_rect = Rect2(4.2379017, 37.856525, 24.532734, 20.417564)
+
+[node name="egg" type="Sprite2D" parent="food window" unique_id=1404656310]
+position = Vector2(18, 15)
+texture = ExtResource("10_choun")
+region_enabled = true
+region_rect = Rect2(0.87841415, 68.643326, 33.32337, 22.024063)
+
+[node name="cake" type="Sprite2D" parent="food window" unique_id=934290706]
+position = Vector2(17, 15)
+texture = ExtResource("10_choun")
+region_enabled = true
+region_rect = Rect2(129.06647, 35.9717, 28.17308, 21.367226)
+
+[node name="fish" type="Sprite2D" parent="food window" unique_id=483539136]
+position = Vector2(17, 16)
+texture = ExtResource("10_choun")
+region_enabled = true
+region_rect = Rect2(98.04374, 9.0636635, 28.014809, 17.093779)
+
+[node name="apple" type="Sprite2D" parent="food window" unique_id=766715744]
+position = Vector2(17, 14)
+texture = ExtResource("10_choun")
+region_enabled = true
+region_rect = Rect2(2.6365585, 5.41646, 24.647812, 24.226479)
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="input_event" from="AnimatedSprite2D/body area" to="." method="_on_body_area_input_event"]
 [connection signal="input_event" from="AnimatedSprite2D/scarearea" to="." method="_on_scarearea_input_event"]
+[connection signal="body_entered" from="AnimatedSprite2D/moutharea" to="." method="_on_moutharea_body_entered"]
 [connection signal="timeout" from="BehaviorTimer" to="." method="_on_behavior_timer_timeout"]
 [connection signal="timeout" from="pet stat timer" to="." method="_on_pet_stat_timer_timeout"]
+[connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/hunger+" to="." method="_on_hunger_pressed"]
