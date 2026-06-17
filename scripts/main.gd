@@ -135,9 +135,9 @@ func _process(delta: float) -> void:
 	if food_window.holding:
 		var mouth_pos = Vector2(get_window().position) + $AnimatedSprite2D/moutharea.global_position
 		var food_pos = Vector2(food_window.position) + Vector2(food_window.size) / 2.0
-		if mouth_pos.distance_to(food_pos) < 20:
+		if mouth_pos.distance_to(food_pos) < 100:
 			eat_food(food_window)
-		
+		#feeding is sm easier now omfddddddddds
 
 func _physics_process(delta):
 	if petting:
@@ -154,11 +154,31 @@ func _physics_process(delta):
 	if window.position.x + window.size.x > usable_rect.end.x:
 		direction.x = -1
 		$AnimatedSprite2D.flip_h = true
+		$"AnimatedSprite2D/body area/CollisionShape2D".position.x = 112
+		$AnimatedSprite2D/scarearea/CollisionShape2D.position.x = -8.697
+		$AnimatedSprite2D/scarearea/CollisionShape2D2.position.x = 3.999
+		$AnimatedSprite2D/scarearea/CollisionShape2D3.position.x = -1.999
+		$AnimatedSprite2D/scarearea/CollisionShape2D5.position.x = 1.5
+		$AnimatedSprite2D/scarearea/CollisionShape2D4.position.x = -6.005
+		$"AnimatedSprite2D/petting area/CollisionShape2D".position.x = 142
+		$AnimatedSprite2D/moutharea.position.x = -12.196
+		$"AnimatedSprite2D/petting area/CollisionShape2D2".position.x = 100
+		$"AnimatedSprite2D/petting area/CollisionShape2D3".position.x = 56
 		updmousemask()
 	#left edge detection
 	elif window.position.x < usable_rect.position.x:
 		direction.x = 1 
 		$AnimatedSprite2D.flip_h = false
+		$"AnimatedSprite2D/body area/CollisionShape2D".position.x = 134
+		$AnimatedSprite2D/scarearea/CollisionShape2D.position.x = 8.697
+		$AnimatedSprite2D/scarearea/CollisionShape2D2.position.x = -3.999
+		$AnimatedSprite2D/scarearea/CollisionShape2D3.position.x = 1.999
+		$AnimatedSprite2D/scarearea/CollisionShape2D5.position.x = -1.5
+		$AnimatedSprite2D/scarearea/CollisionShape2D4.position.x = 6.005
+		$AnimatedSprite2D/moutharea.position.x = 6.998
+		$"AnimatedSprite2D/petting area/CollisionShape2D".position.x = 117
+		$"AnimatedSprite2D/petting area/CollisionShape2D2".position.x = 141.5
+		$"AnimatedSprite2D/petting area/CollisionShape2D3".position.x = 184.5
 		updmousemask()
 
 func updmousemask():
@@ -346,7 +366,7 @@ func eat_food(fw):
 func _on_petting_area_mouse_entered() -> void:
 	if pettingmode:
 		petting = true
-		print("PETTING ACTIVE fasho yes twinikei")
+		print("petting is actigve")
 
 func _on_petting_area_mouse_exited() -> void:
 	petting = false
@@ -355,4 +375,4 @@ func _on_petting_area_mouse_exited() -> void:
 func _on_happy_pressed() -> void:
 	pettingmode = true
 	petingtimer = 7.0
-	print("petting session START")
+	print("petting start")
