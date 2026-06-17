@@ -15,7 +15,7 @@ var food = [
  ]
 
 var currentfood = {}
-
+var ovveridesleep := false
 var holding_food := false
 
 var current_state = State.MOVE
@@ -42,6 +42,17 @@ var energy := 100.00
 var petting = false
 var petingtimer = 0.0
 var pettingmode = false
+#more interaction with fox to feel more alive yeah
+# aiming to develop that if mouse passes by fox a 
+#bit fast he will attemp to pounce onto the cursor
+var swipestart := 0.0
+var swipestarttime := 0.0
+var swipeactive = false
+var lasposmouse := Vector2.ZERO
+var pouncecd := 0.0
+
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
@@ -85,6 +96,10 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	
+	print("petting:", petting)
+	
+	if energy >= 100 and current_state == State.SLEEP:
+		change_state(State.MOVE)
 
 	if petting and pettingmode:
 		var mousevel = Input.get_last_mouse_screen_velocity()
@@ -99,6 +114,18 @@ func _process(delta: float) -> void:
 			pettingmode = false
 			petting = false
 			print("petting session END")
+	if pouncecd > 0 :
+		pouncecd -= delta
+		
+	if pettingmode and petting and pouncecd <= 0:
+		var speed = Input.get_last_mouse_screen_velocity().length()
+
+		print(speed)
+
+		if speed > 1200 and current_state != State.POUNCE:
+			change_state(State.POUNCE)
+			pouncecd = 2.0
+			print("POUNCED")
 
 	if stats_window.visible:
 		var fox_window = get_window()
@@ -113,7 +140,7 @@ func _process(delta: float) -> void:
 		)
 	
 	
-	
+
 	state_timer -= delta
 	
 	if state_timer > 0:
@@ -140,6 +167,7 @@ func _process(delta: float) -> void:
 		#feeding is sm easier now omfddddddddds
 
 func _physics_process(delta):
+
 	if petting:
 		return
 	var window = get_window()
@@ -221,6 +249,14 @@ func change_state(new_state):
 
 func _on_state_timer_end():
 		
+		
+	if ovveridesleep:
+		change_state(State.SLEEP)
+		state_timer = 9999
+		return
+	
+	
+	
 	if petingtimer > 0:
 		change_state(State.IDLE)
 		state_timer = 0.2
@@ -286,15 +322,19 @@ func _on_pet_stat_timer_timeout() -> void:
 	happy -= 0.2
 	
 	if current_state == State.SLEEP:
-		energy += 2
+		energy += 1
 	else:
 		energy -= 0.3
+		
+	updui()
 	print( "happy", happy)
 	print("energy", energy)
 	print("hunger", hunger)
-	if current_state == State.SLEEP and energy >90:
-		change_state(State.MOVE)
-		state_timer = randf_range( 2 , 5)
+	if ovveridesleep:
+		if energy >=100:
+			ovveridesleep = false
+			change_state(State.SLEEP)
+			state_timer = randf_range(2, 5)
 	hunger = clamp(hunger, 0, 100)
 	energy = clamp(energy, 0, 100)
 	happy = clamp(happy, 0, 100)
@@ -358,6 +398,7 @@ func _on_hunger_pressed() -> void:
 func eat_food(fw):
 	hunger += fw.food_data["hunger"]
 	hunger = clamp(hunger, 0, 100)
+	energy += 5
 
 	fw.stop_food()
 	updui()
@@ -376,3 +417,19 @@ func _on_happy_pressed() -> void:
 	pettingmode = true
 	petingtimer = 7.0
 	print("petting start")
+
+
+func _on_sleep_pressed() -> void:
+	ovveridesleep = true
+	change_state(State.SLEEP)
+	state_timer = 9999
+
+
+func _on_body_area_mouse_entered() -> void:
+	if pettingmode:
+		petting = true
+	lasposmouse = get_global_mouse_position()
+
+func _on_body_area_mouse_exited() -> void:
+	lasposmouse = Vector2.ZERO
+	petting = false

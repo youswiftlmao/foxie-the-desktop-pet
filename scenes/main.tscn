@@ -650,6 +650,8 @@ region_rect = Rect2(2.6365585, 5.41646, 24.647812, 24.226479)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="input_event" from="AnimatedSprite2D/body area" to="." method="_on_body_area_input_event"]
+[connection signal="mouse_entered" from="AnimatedSprite2D/body area" to="." method="_on_body_area_mouse_entered"]
+[connection signal="mouse_exited" from="AnimatedSprite2D/body area" to="." method="_on_body_area_mouse_exited"]
 [connection signal="input_event" from="AnimatedSprite2D/scarearea" to="." method="_on_scarearea_input_event"]
 [connection signal="body_entered" from="AnimatedSprite2D/moutharea" to="." method="_on_moutharea_body_entered"]
 [connection signal="mouse_entered" from="AnimatedSprite2D/petting area" to="." method="_on_petting_area_mouse_entered"]
@@ -658,3 +660,4 @@ region_rect = Rect2(2.6365585, 5.41646, 24.647812, 24.226479)
 [connection signal="timeout" from="pet stat timer" to="." method="_on_pet_stat_timer_timeout"]
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/happy+" to="." method="_on_happy_pressed"]
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/hunger+" to="." method="_on_hunger_pressed"]
+[connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/sleep+" to="." method="_on_sleep_pressed"]
