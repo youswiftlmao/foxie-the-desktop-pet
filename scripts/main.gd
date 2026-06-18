@@ -43,10 +43,10 @@ var petting = false
 var petingtimer = 0.0
 var pettingmode = false
 #more interaction with fox to feel more alive yeah
-# aiming to develop that if mouse passes by fox a 
-#bit fast he will attemp to pounce onto the cursor
-var pouncetarhet := Vector2.ZERO
-var pounce_timer := 0.0
+# making a simple pounce feature if mouse near he will pounce
+var pouncing = false
+var pouncetrgt = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
@@ -90,10 +90,7 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	
-	if pounce_timer > 0:
-		pounce_timer -= delta
-		if pounce_timer <= 0:
-			change_state(State.MOVE)
+
 	
 	if energy >= 100 and current_state == State.SLEEP:
 		change_state(State.MOVE)
@@ -112,7 +109,9 @@ func _process(delta: float) -> void:
 			petting = false
 			print("petting session END")
 
-
+	if mosueinpounce_zone() and !pouncing:
+		if randf() < 0.01:
+			pounce()
 	if stats_window.visible:
 		var fox_window = get_window()
 		
@@ -154,17 +153,29 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta):
 
-	if petting:
+	if petting and !pouncing:
 		return
 	var window = get_window()
-	if current_state == State.MOVE :
-		var move_vector = Vector2i(direction * getspeed())
+	
+	if current_state == State.MOVE and !pouncing:
+		window.position += Vector2i(direction * getspeed())
+	#pounce stuff
+	
+	if pouncing:
+		print(window.position.x)
+		window.position.x = move_toward(
+			window.position.x,
+			pouncetrgt,
+			120*delta
+		)
+	
 		
-		window.position += move_vector
-
-	elif current_state == State.POUNCE:
-			var target_x = pouncetarhet.x - window.size.x / 2
-			window.position.x = move_toward(window.position.x, target_x, 20)
+		if abs(window.position.x - pouncetrgt ) < 1:
+			window.position.x  = pouncetrgt
+			pouncing = false
+	
+	
+	
 	
 	#the zone or safezone where it interacts at lmao
 	var usable_rect = DisplayServer.screen_get_usable_rect()
@@ -259,20 +270,7 @@ func _on_state_timer_end():
 		state_timer = 0.2
 		return
 		
-		
-	var mouse = DisplayServer.mouse_get_position()
-	var fox = get_window().position
-	
-	var dist = Vector2(fox).distance_to(mouse)
-	
 
-	if mouse.y > DisplayServer.screen_get_usable_rect().size.y - 250:
-		if dist < 300 and happy > 70 and randf() < 0.6:	
-			if mouseinfront(mouse):
-				pounceoncursor()
-				state_timer = 3.0
-				return
-			
 			
 	var r = randf()
 
@@ -305,7 +303,8 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		State.LOOK:
 			change_state(State.MOVE)
 
-
+		State.POUNCE:
+			change_state(State.IDLE)
 		State.SCARED:
 			change_state(State.MOVE)
 
@@ -446,22 +445,51 @@ func _on_body_area_mouse_exited() -> void:
 
 
 
-func pounceoncursor():
-	var mouse = DisplayServer.mouse_get_position()
-	if not mouseinfront(mouse):
+func pounce():
+	if pouncing:
 		return
-	pouncetarhet = mouse
-
-
+		
+	pouncing = true
 	change_state(State.POUNCE)
-	pounce_timer = 0.5 
-func mouseinfront(mouse_pos: Vector2) -> bool:
-	var fox = Vector2(get_window().position)
 	
-	var facing_left = $AnimatedSprite2D.flip_h
-
-	var tomouse = mouse_pos.x - fox.x
-	if facing_left:
-		return tomouse < 0
+	var window = get_window()
+	
+	
+	if $AnimatedSprite2D.flip_h:
+		pouncetrgt = window.position.x - 30
 	else:
-		return tomouse > 0
+		pouncetrgt = window.position.x + 30
+		
+		
+func mosueinpounce_zone():
+
+	
+	
+	var mouse = DisplayServer.mouse_get_position()
+	var fox_window = get_window()
+	var fox = Vector2(fox_window.position) + Vector2(fox_window.size) * 0.5
+	
+	var rangy = 120
+	var rangx = 250
+
+	var inside = false
+
+	if $AnimatedSprite2D.flip_h:
+		inside = (
+			mouse.x < fox.x and
+			mouse.x > fox.x - rangx and
+			abs(mouse.y - fox.y) < rangy
+		)
+		print("left laser avtive")
+		
+		if inside:
+			print("cursor entered left laser")
+	else:
+		inside = (
+			mouse.x > fox.x and
+			mouse.x < fox.x + rangx and
+			abs(mouse.y - fox.y) < rangy
+		)
+		print("right laser avtive")
+		if inside:
+			print("cursor entered right laser")
