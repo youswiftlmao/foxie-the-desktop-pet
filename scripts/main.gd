@@ -26,7 +26,8 @@ enum State {
 	LOOK,
 	POUNCE,
 	SCARED,
-	SLEEP
+	SLEEP,
+	ZOOMIES
 }
 
 var hunger := 100.00
@@ -50,6 +51,11 @@ var pouncetrgt = 0
 var dragging = false
 var falling = false
 var fallvelocity = 0.0
+#zoomie vars gruhuhrgurhguoahoaghaiuh
+var zoomies = false
+var zoomietimer = 0.0
+const  zoomieduration = 6.0
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
@@ -93,7 +99,15 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	
-
+	if zoomies:
+		zoomietimer -= delta
+		energy -=5 * delta
+		
+		if zoomietimer <= 0:
+			zoomies = false
+			$AnimatedSprite2D.speed_scale = 1
+			change_state(State.IDLE)
+			state_timer = randf_range(2,5)
 	
 	if energy >= 100 and current_state == State.SLEEP:
 		change_state(State.MOVE)
@@ -138,8 +152,11 @@ func _process(delta: float) -> void:
 	_on_state_timer_end()
 	
 	
-	#for slower sped while low enegry or like low hunger
-	$AnimatedSprite2D.speed_scale = clamp(energy / 100.0, 0.4, 1.0)
+	#for slower sped while low enegry or like low hunger if not in zoomiues lol
+	if zoomies:
+		$AnimatedSprite2D.speed_scale  = 3
+	else:
+		$AnimatedSprite2D.speed_scale = clamp(energy / 100.0, 0.4, 1.0)
 	
 	if hunger <=0 :
 		hunger = 0
@@ -240,7 +257,9 @@ func _physics_process(delta):
 
 
 
-
+	if zoomies and state_timer <= 0:
+		state_timer  = 0.2
+		direction.x *= -1
 
 
 
@@ -279,8 +298,8 @@ func change_state(new_state):
 			$AnimatedSprite2D.play("scare")
 		State.SLEEP:
 			$AnimatedSprite2D.play("sleep")
-			
-
+		State.ZOOMIES:
+			$AnimatedSprite2D.play("move")
 
 func _on_state_timer_end():
 		
@@ -290,7 +309,10 @@ func _on_state_timer_end():
 		state_timer = 9999
 		return
 	
-	
+	if happy > 80 and energy > 80:
+		if randf() < 0.15:
+			startzoomies()
+			return
 	
 	if petingtimer > 0:
 		change_state(State.IDLE)
@@ -379,7 +401,8 @@ func _on_pet_stat_timer_timeout() -> void:
 	
 func getspeed():
 	var speed = movespeed
-	
+	if zoomies:
+		return movespeed * 4
 	if energy < 50:
 		speed *= 0.7
 	if energy < 25 :
@@ -535,3 +558,12 @@ func _on_neckarea_input_event(viewport: Node, event: InputEvent, shape_idx: int)
 			if dragging:
 				dragging = false
 				falling = true
+func startzoomies():
+	if zoomies:
+		return
+		
+	zoomies = true
+	zoomietimer = zoomieduration
+	
+	change_state(State.ZOOMIES)
+	happy = clamp(happy + 10, 0 , 100)
