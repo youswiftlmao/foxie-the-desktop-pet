@@ -475,7 +475,6 @@ shape = SubResource("RectangleShape2D_trceg")
 [node name="neckarea" type="Area2D" parent="AnimatedSprite2D" unique_id=2093470212]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/neckarea" unique_id=133210152]
-position = Vector2(0.29990578, -0.3498931)
 scale = Vector2(0.9999999, 0.9999999)
 shape = SubResource("RectangleShape2D_a8y0u")
 

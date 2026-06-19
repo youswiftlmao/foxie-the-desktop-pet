@@ -7,10 +7,10 @@ var direction = Vector2(1, 0)
 @onready var stats_window = $statslayer/CanvasLayer/StatsWindow
 #feeding vars ig im hungry
 var food = [
-	{"name": "apple","hunger": 10},
-	{"name": "meat","hunger": 25},
-	{"name": "egg","hunger": 15},
-	{"name": "fish","hunger": 15},
+	{"name": "apple","hunger": 20},
+	{"name": "meat","hunger": 30},
+	{"name": "egg","hunger": 20},
+	{"name": "fish","hunger": 20},
 	{"name": "cake","hunger": 10},
  ]
 
@@ -160,7 +160,16 @@ func _physics_process(delta):
 	if petting and !pouncing:
 		return
 	var window = get_window()
-	
+		
+	if dragging:
+		var mouse = DisplayServer.mouse_get_position()
+		
+		falling = false
+		window.position = Vector2i(
+			mouse.x - window.size.x / 2,
+			mouse.y - 70
+		)
+		return
 	if current_state == State.MOVE and !pouncing:
 		window.position += Vector2i(direction * getspeed())
 	#pounce stuff
@@ -179,20 +188,11 @@ func _physics_process(delta):
 			pouncing = false
 	
 	
-	if dragging:
-		var mouse = DisplayServer.mouse_get_position()
-		
-		
-		window.position = Vector2i(
-			mouse.x - window.size.x / 2,
-			mouse.y - 30
-		)
-		return
-		
+
 	if falling:
 		var usable_rect = DisplayServer.screen_get_usable_rect()
 		var targety = usable_rect.end.y - window.size.y
-		fallvelocity += 800*delta
+		fallvelocity += 2100*delta
 		window.position.y += int(fallvelocity * delta)
 		
 		if window.position.y >= targety:
@@ -219,6 +219,7 @@ func _physics_process(delta):
 		$AnimatedSprite2D/moutharea.position.x = -12.196
 		$"AnimatedSprite2D/petting area/CollisionShape2D2".position.x = 100
 		$"AnimatedSprite2D/petting area/CollisionShape2D3".position.x = 56
+
 		updmousemask()
 	#left edge detection
 	elif window.position.x < usable_rect.position.x:
@@ -234,6 +235,7 @@ func _physics_process(delta):
 		$"AnimatedSprite2D/petting area/CollisionShape2D".position.x = 117
 		$"AnimatedSprite2D/petting area/CollisionShape2D2".position.x = 141.5
 		$"AnimatedSprite2D/petting area/CollisionShape2D3".position.x = 184.5
+		$AnimatedSprite2D/neckarea/CollisionShape2D.position.x = 0.0
 		updmousemask()
 
 
@@ -505,7 +507,7 @@ func mosueinpounce_zone():
 			mouse.x > fox.x - rangx and
 			abs(mouse.y - fox.y) < rangy
 		)
-		print("left laser avtive")
+		
 		
 		if inside:
 			print("cursor entered left laser")
@@ -515,21 +517,21 @@ func mosueinpounce_zone():
 			mouse.x < fox.x + rangx and
 			abs(mouse.y - fox.y) < rangy
 		)
-		print("right laser avtive")
+		
 		if inside:
 			print("cursor entered right laser")
 	return inside
 
 
 func _on_neckarea_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			
-			if event.pressed:
-				dragging = true
-				falling = false
-				fallvelocity = 0.0
-				
-			else:
+
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		
+		if event.pressed:
+			dragging = true
+			falling = false
+			fallvelocity = 0.0
+		else:
+			if dragging:
 				dragging = false
 				falling = true
