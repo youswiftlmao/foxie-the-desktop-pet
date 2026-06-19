@@ -120,18 +120,6 @@ region = Rect2(192, 80, 32, 16)
 atlas = ExtResource("1_o5qli")
 region = Rect2(224, 80, 32, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yq6so"]
-atlas = ExtResource("1_o5qli")
-region = Rect2(0, 112, 32, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fv21b"]
-atlas = ExtResource("1_o5qli")
-region = Rect2(32, 112, 32, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tel4y"]
-atlas = ExtResource("1_o5qli")
-region = Rect2(64, 112, 32, 16)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_qkpxi"]
 atlas = ExtResource("1_o5qli")
 region = Rect2(96, 112, 32, 16)
@@ -308,15 +296,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_yq6so")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fv21b")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tel4y")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_qkpxi")
 }, {
 "duration": 1.0,
@@ -342,7 +321,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"pounce",
-"speed": 7.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -406,6 +385,9 @@ size = Vector2(34.999954, 50.000023)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trceg"]
 size = Vector2(52.999954, 43.00004)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a8y0u"]
+size = Vector2(2.3992634, 2.4992323)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o6xl0"]
 bg_color = Color(0, 0, 0, 0)
@@ -489,6 +471,13 @@ shape = SubResource("RectangleShape2D_eb6dy")
 position = Vector2(184.5, 42.5)
 scale = Vector2(0.9999995, 0.9999995)
 shape = SubResource("RectangleShape2D_trceg")
+
+[node name="neckarea" type="Area2D" parent="AnimatedSprite2D" unique_id=2093470212]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/neckarea" unique_id=133210152]
+position = Vector2(0.29990578, -0.3498931)
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_a8y0u")
 
 [node name="BehaviorTimer" type="Timer" parent="." unique_id=516475822]
 wait_time = 3.0
@@ -656,6 +645,7 @@ region_rect = Rect2(2.6365585, 5.41646, 24.647812, 24.226479)
 [connection signal="body_entered" from="AnimatedSprite2D/moutharea" to="." method="_on_moutharea_body_entered"]
 [connection signal="mouse_entered" from="AnimatedSprite2D/petting area" to="." method="_on_petting_area_mouse_entered"]
 [connection signal="mouse_exited" from="AnimatedSprite2D/petting area" to="." method="_on_petting_area_mouse_exited"]
+[connection signal="input_event" from="AnimatedSprite2D/neckarea" to="." method="_on_neckarea_input_event"]
 [connection signal="timeout" from="BehaviorTimer" to="." method="_on_behavior_timer_timeout"]
 [connection signal="timeout" from="pet stat timer" to="." method="_on_pet_stat_timer_timeout"]
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/happy+" to="." method="_on_happy_pressed"]

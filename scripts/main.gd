@@ -46,7 +46,10 @@ var pettingmode = false
 # making a simple pounce feature if mouse near he will pounce
 var pouncing = false
 var pouncetrgt = 0
-
+#dragiing the fox
+var dragging = false
+var falling = false
+var fallvelocity = 0.0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
@@ -109,8 +112,9 @@ func _process(delta: float) -> void:
 			petting = false
 			print("petting session END")
 
-	if mosueinpounce_zone() and !pouncing:
+	if current_state == State.MOVE and mosueinpounce_zone() and !pouncing:
 		if randf() < 0.01:
+			
 			pounce()
 	if stats_window.visible:
 		var fox_window = get_window()
@@ -166,7 +170,7 @@ func _physics_process(delta):
 		window.position.x = move_toward(
 			window.position.x,
 			pouncetrgt,
-			120*delta
+			800*delta
 		)
 	
 		
@@ -175,11 +179,32 @@ func _physics_process(delta):
 			pouncing = false
 	
 	
-	
-	
+	if dragging:
+		var mouse = DisplayServer.mouse_get_position()
+		
+		
+		window.position = Vector2i(
+			mouse.x - window.size.x / 2,
+			mouse.y - 30
+		)
+		return
+		
+	if falling:
+		var usable_rect = DisplayServer.screen_get_usable_rect()
+		var targety = usable_rect.end.y - window.size.y
+		fallvelocity += 800*delta
+		window.position.y += int(fallvelocity * delta)
+		
+		if window.position.y >= targety:
+			window.position.y = targety
+			falling = false
+			fallvelocity = 0
+			
+			change_state(State.IDLE)
+			
 	#the zone or safezone where it interacts at lmao
 	var usable_rect = DisplayServer.screen_get_usable_rect()
-	
+	var targety = usable_rect.end.y - window.size.y
 	#right edge detection
 	if window.position.x + window.size.x > usable_rect.end.x:
 		direction.x = -1
@@ -444,23 +469,23 @@ func _on_body_area_mouse_exited() -> void:
 	petting = false
 
 
-
 func pounce():
-	if pouncing:
-		return
-		
 	pouncing = true
 	change_state(State.POUNCE)
-	
+
+	await get_tree().process_frame
+
+	var mouse = DisplayServer.mouse_get_position()
 	var window = get_window()
-	
-	
 	if $AnimatedSprite2D.flip_h:
-		pouncetrgt = window.position.x - 30
+		pouncetrgt = window.position.x - 200
 	else:
-		pouncetrgt = window.position.x + 30
-		
-		
+		pouncetrgt = window.position.x + 200
+
+	if abs(pouncetrgt - window.position.x) < 50:
+		pouncing = false
+		change_state(State.IDLE)
+		return
 func mosueinpounce_zone():
 
 	
@@ -493,3 +518,18 @@ func mosueinpounce_zone():
 		print("right laser avtive")
 		if inside:
 			print("cursor entered right laser")
+	return inside
+
+
+func _on_neckarea_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			
+			if event.pressed:
+				dragging = true
+				falling = false
+				fallvelocity = 0.0
+				
+			else:
+				dragging = false
+				falling = true
