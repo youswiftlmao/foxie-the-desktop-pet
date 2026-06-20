@@ -64,7 +64,12 @@ var toys = [
 var currenttoy = {}
 var toy_active = false
 @onready var toy_window = $"toys window"
+
+var timerunningstats = false
 # Called when the node enters the scene tree for the first time.
+
+
+var statstimerhide
 func _ready() -> void:
 
 	updui()
@@ -106,17 +111,21 @@ func _ready() -> void:
 
 	
 func _process(delta: float) -> void:
-	
 	if zoomies:
+		var window = get_window()
+
 		zoomietimer -= delta
-		energy -=5 * delta
-		
+		energy -= 5 * delta
+
+		# move every frame
+		window.position += Vector2i(direction * getspeed() * 6)
+
 		if zoomietimer <= 0:
 			zoomies = false
-			$AnimatedSprite2D.speed_scale = 1
 			change_state(State.IDLE)
-			state_timer = randf_range(2,5)
-	
+			state_timer = randf_range(2, 5)
+
+		return
 	if energy >= 100 and current_state == State.SLEEP:
 		change_state(State.MOVE)
 
@@ -265,12 +274,6 @@ func _physics_process(delta):
 
 
 
-	if zoomies and state_timer <= 0:
-		state_timer  = 0.2
-		direction.x *= -1
-
-
-
 func updmousemask():
 	var anim = $AnimatedSprite2D
 	
@@ -367,13 +370,10 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 
 
 func _on_body_area_input_event(viewport, event, shape_idx) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and timerunningstats == false:
+		showstatswindow()
 	
-	
-	if event is InputEventMouseButton and event.pressed:
 
-		stats_window.visible = !stats_window.visible
-		change_state(State.IDLE)
-		state_timer = 5
 
 
 func _on_scarearea_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
@@ -410,7 +410,7 @@ func _on_pet_stat_timer_timeout() -> void:
 func getspeed():
 	var speed = movespeed
 	if zoomies:
-		return movespeed * 4
+		return movespeed * 1.5
 	if energy < 50:
 		speed *= 0.7
 	if energy < 25 :
@@ -592,3 +592,12 @@ func pictoy():
 	currenttoy = toys.pick_random()
 	toy_window.start_toy(currenttoy)
 	toy_active = true
+func showstatswindow():
+	stats_window.visible = true
+	timerunningstats = true
+	await get_tree().create_timer(5.0).timeout
+	hidestatswindow()
+func hidestatswindow():
+	timerunningstats = false
+	stats_window.visible = false
+	
