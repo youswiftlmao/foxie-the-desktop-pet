@@ -55,7 +55,15 @@ var fallvelocity = 0.0
 var zoomies = false
 var zoomietimer = 0.0
 const  zoomieduration = 6.0
-
+#making a play area fatch mainly
+var toys = [
+	{"name":"ball"},
+	{"name":"bone"},
+	{"name":"feather"}
+]
+var currenttoy = {}
+var toy_active = false
+@onready var toy_window = $"toys window"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
@@ -567,3 +575,20 @@ func startzoomies():
 	
 	change_state(State.ZOOMIES)
 	happy = clamp(happy + 10, 0 , 100)
+
+
+
+
+
+func _on_playbtn_pressed() -> void:
+	if toy_active:
+		return
+		
+	pictoy()
+	
+	
+	
+func pictoy():
+	currenttoy = toys.pick_random()
+	toy_window.start_toy(currenttoy)
+	toy_active = true

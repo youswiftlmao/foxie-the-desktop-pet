@@ -10,7 +10,12 @@
 [ext_resource type="FontFile" uid="uid://bh6jvsa7eqolq" path="res://text/Jersey10-Regular.ttf" id="8_tipki"]
 [ext_resource type="Texture2D" uid="uid://cdh7a4un3233t" path="res://assets/interaction button.png" id="9_85g3d"]
 [ext_resource type="Texture2D" uid="uid://nm75pplo4x6d" path="res://assets/pixel_food_icons_sheet.png" id="10_choun"]
+[ext_resource type="Texture2D" uid="uid://p15c8res87jk" path="res://assets/palybtn.png" id="10_jkv2x"]
 [ext_resource type="Script" uid="uid://cenovfmomj7k2" path="res://scripts/food_window.gd" id="10_ya4ey"]
+[ext_resource type="Texture2D" uid="uid://q533g4ruect7" path="res://assets/ball.png" id="13_jbj1t"]
+[ext_resource type="Script" uid="uid://bfqtsb3pcn7sx" path="res://scripts/toys_window.gd" id="13_muem4"]
+[ext_resource type="Texture2D" uid="uid://c2er80vramgsm" path="res://assets/bone.png" id="14_muem4"]
+[ext_resource type="Texture2D" uid="uid://4n2bga3jqgvl" path="res://assets/feather.png" id="15_dp3eg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0wfyh"]
 atlas = ExtResource("1_o5qli")
@@ -596,6 +601,13 @@ texture_normal = ExtResource("9_85g3d")
 ignore_texture_size = true
 stretch_mode = 4
 
+[node name="playbtn" type="TextureButton" parent="statslayer/CanvasLayer/StatsWindow" unique_id=807533727]
+offset_left = 35.0
+offset_top = 34.0
+offset_right = 75.0
+offset_bottom = 74.0
+texture_normal = ExtResource("10_jkv2x")
+
 [node name="food window" type="Window" parent="." unique_id=1187842874]
 transparent_bg = true
 oversampling_override = 1.0
@@ -636,6 +648,25 @@ texture = ExtResource("10_choun")
 region_enabled = true
 region_rect = Rect2(2.6365585, 5.41646, 24.647812, 24.226479)
 
+[node name="toys window" type="Window" parent="." unique_id=1922062848]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(32, 32)
+visible = false
+script = ExtResource("13_muem4")
+
+[node name="Ball" type="Sprite2D" parent="toys window" unique_id=1539140873]
+position = Vector2(16, 16)
+texture = ExtResource("13_jbj1t")
+
+[node name="Bone" type="Sprite2D" parent="toys window" unique_id=1055484165]
+position = Vector2(16, 16)
+texture = ExtResource("14_muem4")
+
+[node name="Feather" type="Sprite2D" parent="toys window" unique_id=458963774]
+position = Vector2(16, 16)
+texture = ExtResource("15_dp3eg")
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="input_event" from="AnimatedSprite2D/body area" to="." method="_on_body_area_input_event"]
 [connection signal="mouse_entered" from="AnimatedSprite2D/body area" to="." method="_on_body_area_mouse_entered"]
@@ -650,3 +681,4 @@ region_rect = Rect2(2.6365585, 5.41646, 24.647812, 24.226479)
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/happy+" to="." method="_on_happy_pressed"]
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/hunger+" to="." method="_on_hunger_pressed"]
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/sleep+" to="." method="_on_sleep_pressed"]
+[connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/playbtn" to="." method="_on_playbtn_pressed"]
