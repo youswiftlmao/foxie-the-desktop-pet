@@ -27,7 +27,8 @@ enum State {
 	POUNCE,
 	SCARED,
 	SLEEP,
-	ZOOMIES
+	ZOOMIES,
+	CHASETOY
 }
 
 var hunger := 100.00
@@ -64,7 +65,10 @@ var toys = [
 var currenttoy = {}
 var toy_active = false
 @onready var toy_window = $"toys window"
-
+var toythorwn = false
+var carryingtoy = false
+var toycaught = false
+var toypounced = false
 var timerunningstats = false
 # Called when the node enters the scene tree for the first time.
 
@@ -111,6 +115,9 @@ func _ready() -> void:
 
 	
 func _process(delta: float) -> void:
+	if toyvisible() and toythorwn and !toycaught and current_state != State.CHASETOY:
+		change_state(State.CHASETOY)
+
 	if zoomies:
 		var window = get_window()
 
@@ -190,10 +197,30 @@ func _process(delta: float) -> void:
 		#feeding is sm easier now omfddddddddds
 
 func _physics_process(delta):
-
+	
 	if petting and !pouncing:
 		return
 	var window = get_window()
+		
+		
+	if current_state == State.CHASETOY and toythorwn:
+		var toypos = findtoypos()
+		var foxpos = getfoxpos()
+		
+		if toypos.x > foxpos.x:
+			direction.x = 1
+			$AnimatedSprite2D.flip_h = false
+		else:
+			direction.x = -1
+			$AnimatedSprite2D.flip_h = true
+			
+		window.position.x += direction.x * 5
+		
+		var dist = foxpos.distance_to(toypos)
+		
+		if dist < 200 and !pouncing and !toycaught:
+			print("punced on toy")
+			pounce()
 		
 	if dragging:
 		var mouse = DisplayServer.mouse_get_position()
@@ -310,6 +337,8 @@ func change_state(new_state):
 		State.SLEEP:
 			$AnimatedSprite2D.play("sleep")
 		State.ZOOMIES:
+			$AnimatedSprite2D.play("move")
+		State.CHASETOY:
 			$AnimatedSprite2D.play("move")
 
 func _on_state_timer_end():
@@ -503,6 +532,9 @@ func _on_body_area_mouse_exited() -> void:
 
 
 func pounce():
+	
+	if pouncing :
+		return
 	pouncing = true
 	change_state(State.POUNCE)
 
@@ -592,6 +624,8 @@ func pictoy():
 	currenttoy = toys.pick_random()
 	toy_window.start_toy(currenttoy)
 	toy_active = true
+	toypounced = false
+	toycaught = false
 func showstatswindow():
 	stats_window.visible = true
 	timerunningstats = true
@@ -601,3 +635,12 @@ func hidestatswindow():
 	timerunningstats = false
 	stats_window.visible = false
 	
+func toyvisible():
+	return toy_window.visible
+	
+func findtoypos():
+	return Vector2(toy_window.position) + Vector2(toy_window.size) / 2.0
+	
+func getfoxpos():
+	var window = get_window()
+	return Vector2(window.position) + Vector2(window.size) / 2.0
