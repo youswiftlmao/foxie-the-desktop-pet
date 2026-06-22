@@ -3,7 +3,7 @@ extends Window
 
 var toydata = []
 var holding  = false
-
+var carried = false
 @onready var ball = $Ball
 @onready var bone = $Bone
 @onready var feather = $Feather
@@ -16,6 +16,7 @@ var floor_y
 
 # Called when the node enters the scene tree for the first time.
 func start_toy(toy):
+	
 	toydata = toy
 	
 	$Ball.visible = false
@@ -40,6 +41,8 @@ func _ready() -> void:
 	size = Vector2i(32, 32)
 	hide()
 func _input(event: InputEvent) -> void:
+	if carried:
+		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		
 		if event.is_pressed():
@@ -49,9 +52,11 @@ func _input(event: InputEvent) -> void:
 			
 		else:
 			dragging = false
-			get_parent().toythrown = true
+			get_parent().toythorwn = true
 func _process(delta: float) -> void:
-	
+	if carried:
+		velocity = Vector2.ZERO
+		return
 	#to fix 
 	#way to bouncy
 	#too much x ressistant  or y probable y becvause it dsnt fall in a curve more like an arch which is not good fixing tmrw
@@ -82,7 +87,7 @@ func _process(delta: float) -> void:
 	if pos.y < 0:
 		pos.y = 0
 		velocity.y *= -0.4
-	elif pos.y > floor_y:
+	elif pos.y > floor_y and !carried:
 		pos.y = floor_y
 		velocity.y *= -0.4
 	

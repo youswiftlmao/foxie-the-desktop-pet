@@ -70,6 +70,8 @@ var carryingtoy = false
 var toycaught = false
 var toypounced = false
 var timerunningstats = false
+var returntoy := false
+var bobtoyinmouthtimer := 0.0
 # Called when the node enters the scene tree for the first time.
 
 
@@ -115,9 +117,18 @@ func _ready() -> void:
 
 	
 func _process(delta: float) -> void:
-	if toyvisible() and toythorwn and !toycaught and current_state != State.CHASETOY:
+	if toyvisible() \
+	and toythorwn \
+	and !toycaught \
+	and !carryingtoy \
+	and !returntoy \
+	and current_state != State.CHASETOY \
+	and !pouncing:
+	
 		change_state(State.CHASETOY)
-
+		
+	if toy_active and !toy_window.visible:
+		resettoy()
 	if zoomies:
 		var window = get_window()
 
@@ -197,13 +208,15 @@ func _process(delta: float) -> void:
 		#feeding is sm easier now omfddddddddds
 
 func _physics_process(delta):
-	
+
 	if petting and !pouncing:
 		return
 	var window = get_window()
 		
 		
-	if current_state == State.CHASETOY and toythorwn:
+	if current_state == State.CHASETOY and toythorwn and !toycaught:
+		if pouncing:
+			return
 		var toypos = findtoypos()
 		var foxpos = getfoxpos()
 		
@@ -219,9 +232,41 @@ func _physics_process(delta):
 		var dist = foxpos.distance_to(toypos)
 		
 		if dist < 200 and !pouncing and !toycaught:
+			toycaught = true
+			carryingtoy  = true
+			returntoy = true
+			
 			print("punced on toy")
+			
 			pounce()
 		
+		
+	
+		
+		
+	if carryingtoy :
+
+		toy_window.carried = true
+		toy_window.velocity = Vector2.ZERO
+		toy_window.position = get_window().position + Vector2i(40, 70 )
+		toy_window.grab_focus()
+		
+		
+	if returntoy and !pouncing:
+		direction.x =  1
+		
+		$AnimatedSprite2D.flip_h = false
+		change_state(State.MOVE)
+		var usablrect = DisplayServer.screen_get_usable_rect()
+		
+		
+		if window.position.x > usablrect.end.x - 300:
+			droptoy()
+			resettoy()
+			returntoy = false
+			happy = clamp(happy + 10 , 0 , 100)
+			change_state(State.IDLE)
+			state_timer = randf_range(2, 5)
 	if dragging:
 		var mouse = DisplayServer.mouse_get_position()
 		
@@ -261,11 +306,13 @@ func _physics_process(delta):
 			falling = false
 			fallvelocity = 0
 			
-			change_state(State.IDLE)
+			change_state(State.MOVE)
 			
 	#the zone or safezone where it interacts at lmao
+
 	var usable_rect = DisplayServer.screen_get_usable_rect()
 	var targety = usable_rect.end.y - window.size.y
+		
 	#right edge detection
 	if window.position.x + window.size.x > usable_rect.end.x:
 		direction.x = -1
@@ -300,7 +347,14 @@ func _physics_process(delta):
 		updmousemask()
 
 
-
+	if window.position.x + window.size.x >= usable_rect.end.x:
+		direction.x = -1
+		
+	elif window.position.x <= usable_rect.position.x:
+		direction.x = 1
+		
+		
+	$AnimatedSprite2D.flip_h = direction.x < 0
 func updmousemask():
 	var anim = $AnimatedSprite2D
 	
@@ -342,7 +396,10 @@ func change_state(new_state):
 			$AnimatedSprite2D.play("move")
 
 func _on_state_timer_end():
-		
+	if carryingtoy:
+		change_state(State.MOVE)
+		state_timer = randf_range(2, 5)
+		return
 		
 	if ovveridesleep:
 		change_state(State.SLEEP)
@@ -350,7 +407,7 @@ func _on_state_timer_end():
 		return
 	
 	if happy > 80 and energy > 80:
-		if randf() < 0.15:
+		if randf() < 0.10:
 			startzoomies()
 			return
 	
@@ -615,7 +672,7 @@ func startzoomies():
 func _on_playbtn_pressed() -> void:
 	if toy_active:
 		return
-		
+	
 	pictoy()
 	
 	
@@ -626,6 +683,7 @@ func pictoy():
 	toy_active = true
 	toypounced = false
 	toycaught = false
+
 func showstatswindow():
 	stats_window.visible = true
 	timerunningstats = true
@@ -644,3 +702,29 @@ func findtoypos():
 func getfoxpos():
 	var window = get_window()
 	return Vector2(window.position) + Vector2(window.size) / 2.0
+func droptoy():
+	carryingtoy = false
+	toycaught = false
+	toy_window.carried = false
+	toy_window.position = get_window().position + Vector2i(80, 80)
+	toy_active = false
+	#2 be called when dropping or at end mayb despawn it later wlooo
+func resettoy():
+	toy_active = false
+	toythorwn = false
+	toycaught = false
+	carryingtoy = false
+	returntoy = false
+	toypounced = false
+	toy_window.carried = false
+	
+	
+	pouncing = false
+	current_state = State.IDLE
+	
+	
+	var window  = get_window()
+	window.grab_focus()
+	
+	toy_window.position = window.position + Vector2i(80, 80)
+	print("toy systm resetted")
