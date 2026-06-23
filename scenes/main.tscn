@@ -499,6 +499,7 @@ autostart = true
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(300, 300)
+visible = false
 always_on_top = true
 script = ExtResource("3_o6xl0")
 
@@ -730,12 +731,6 @@ position = Vector2(18.778502, 18.130968)
 scale = Vector2(0.280945, 0.280945)
 texture = ExtResource("11_muem4")
 
-[node name="all time stats" type="Sprite2D" parent="statslayer/CanvasLayer/StatsWindow" unique_id=72647685]
-texture_filter = 1
-position = Vector2(152, 152)
-scale = Vector2(4.6329575, 4.6329575)
-texture = ExtResource("3_tefeu")
-
 [node name="GuiBg" type="Sprite2D" parent="statslayer/CanvasLayer/StatsWindow" unique_id=1974412288]
 position = Vector2(256, 51.000008)
 scale = Vector2(0.58957887, 0.58957887)
@@ -749,11 +744,180 @@ offset_bottom = 65.0
 scale = Vector2(1.1581107, 1.1581107)
 texture_normal = ExtResource("11_muem4")
 
+[node name="stats window" type="Window" parent="statslayer/CanvasLayer" unique_id=1234608441]
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(300, 300)
+
+[node name="pagecontainer" type="Control" parent="statslayer/CanvasLayer/stats window" unique_id=455033680]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="page1" type="Control" parent="statslayer/CanvasLayer/stats window/pagecontainer" unique_id=853602335]
+visible = false
+custom_minimum_size = Vector2(300, 300)
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GuiBg" type="Sprite2D" parent="statslayer/CanvasLayer/stats window/pagecontainer/page1" unique_id=444600981]
+texture_filter = 1
+position = Vector2(150.99998, 150)
+scale = Vector2(4.7, 4.7)
+texture = ExtResource("3_tefeu")
+
+[node name="maintag" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page1/GuiBg" unique_id=239949397]
+offset_left = -24.255316
+offset_top = -29.148937
+offset_right = 323.55157
+offset_bottom = 44.083767
+scale = Vector2(0.15688843, 0.15688843)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 64
+text = " all time stats"
+
+[node name="age" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page1/GuiBg" unique_id=366139380]
+clip_contents = false
+offset_left = -24.893616
+offset_top = -3.6170228
+offset_right = 260.21277
+offset_bottom = 75.99865
+scale = Vector2(0.1, 0.1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 64
+text = "  age"
+vertical_alignment = 1
+
+[node name="weight" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page1/GuiBg" unique_id=371833954]
+clip_contents = false
+offset_left = 7.659579
+offset_top = -3.617021
+offset_right = 355.46646
+offset_bottom = 69.615685
+scale = Vector2(0.1, 0.1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 64
+text = "weight"
+
+[node name="phase" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page1/GuiBg" unique_id=1925924100]
+clip_contents = false
+offset_left = -25.10638
+offset_top = 18.297876
+offset_right = 228.08513
+offset_bottom = 91.53057
+scale = Vector2(0.1, 0.1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 64
+text = "phase"
+fit_content = true
+vertical_alignment = 1
+
+[node name="size" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page1/GuiBg" unique_id=344064116]
+clip_contents = false
+offset_left = 10.21277
+offset_top = 17.659575
+offset_right = 358.01965
+offset_bottom = 90.89229
+scale = Vector2(0.1, 0.1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 64
+text = "size"
+
+[node name="page2" type="Control" parent="statslayer/CanvasLayer/stats window/pagecontainer" unique_id=2092740034]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GuiBg2" type="Sprite2D" parent="statslayer/CanvasLayer/stats window/pagecontainer/page2" unique_id=1058860826]
+texture_filter = 1
+position = Vector2(150.99998, 150)
+scale = Vector2(4.7, 4.7)
+texture = ExtResource("3_tefeu")
+
+[node name="maintag" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page2/GuiBg2" unique_id=1609601125]
+offset_left = -24.255316
+offset_top = -29.148937
+offset_right = 323.55157
+offset_bottom = 44.083767
+scale = Vector2(0.15688843, 0.15688843)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 64
+text = "     page 2"
+
+[node name="foodeaten" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page2/GuiBg2" unique_id=485813140]
+clip_contents = false
+offset_left = -24.893614
+offset_top = -5.31915
+offset_right = 322.91327
+offset_bottom = 67.91355
+scale = Vector2(0.1, 0.1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 64
+text = "eaten"
+
+[node name="timesplayed" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page2/GuiBg2" unique_id=215219635]
+clip_contents = false
+offset_left = -28.936169
+offset_top = 21.063831
+offset_right = 318.87073
+offset_bottom = 94.29654
+scale = Vector2(0.1, 0.1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 64
+text = "  played"
+
+[node name="times petted" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page2/GuiBg2" unique_id=1222410515]
+clip_contents = false
+offset_left = -24.255316
+offset_top = -29.148937
+offset_right = 323.55157
+offset_bottom = 44.083767
+scale = Vector2(0.1, 0.1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 64
+text = "  petted"
+
+[node name="hoursslept" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page2/GuiBg2" unique_id=425030801]
+clip_contents = false
+offset_left = -24.255316
+offset_top = -29.148937
+offset_right = 323.55157
+offset_bottom = 44.083767
+scale = Vector2(0.1, 0.1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 64
+text = "     page 2"
+
+[node name="page3" type="Control" parent="statslayer/CanvasLayer/stats window/pagecontainer" unique_id=1670408852]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GuiBg3" type="Sprite2D" parent="statslayer/CanvasLayer/stats window/pagecontainer/page3" unique_id=36054798]
+texture_filter = 1
+position = Vector2(150.99998, 150)
+scale = Vector2(4.7, 4.7)
+texture = ExtResource("3_tefeu")
+
 [node name="food window" type="Window" parent="." unique_id=1187842874]
 transparent_bg = true
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(32, 32)
+visible = false
 unresizable = true
 always_on_top = true
 transparent = true
