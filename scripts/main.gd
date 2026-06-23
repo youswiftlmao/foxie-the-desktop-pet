@@ -76,6 +76,32 @@ var bobtoyinmouthtimer := 0.0
 
 
 var statstimerhide
+
+
+var achivement = {
+	"firstnap": false,
+	"slept": false,
+	"atefood": false,
+	"played": false,
+	"hadzoomers": false,
+	"gotpinched": false
+}
+
+
+
+#statiscits panel var like amt of time done (action)
+var hoursslept
+var foodeaten
+var age
+var distancetraveled
+var timesplayed
+var timepicked
+var timespetted
+var wheight
+var phase
+var size #starts out small as grows scale sdoes too and kgs yeah
+
+
 func _ready() -> void:
 
 	updui()
@@ -261,6 +287,9 @@ func _physics_process(delta):
 		
 		
 		if window.position.x > usablrect.end.x - 300:
+			if !achivement["played"]:
+				achivement["played"] = true
+				$"statslayer/CanvasLayer/StatsWindow/acheviements panel/Done4".visible = true
 			droptoy()
 			resettoy()
 			returntoy = false
@@ -463,7 +492,11 @@ func _on_body_area_input_event(viewport, event, shape_idx) -> void:
 
 
 func _on_scarearea_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+
 	if event is InputEventMouseButton and event.pressed:
+		if  !achivement["gotpinched"]:
+			achivement["gotpinced"] = true
+			$"statslayer/CanvasLayer/StatsWindow/acheviements panel/Done6".visible = true
 		change_state(State.SCARED)
 		happy -= 10
 
@@ -549,6 +582,9 @@ func _on_hunger_pressed() -> void:
 	pickfood()
 	
 func eat_food(fw):
+	if !achivement["atefood"]:
+		achivement["atefood"] = true
+		$"statslayer/CanvasLayer/StatsWindow/acheviements panel/Done3".visible = true
 	hunger += fw.food_data["hunger"]
 	hunger = clamp(hunger, 0, 100)
 	energy += 5
@@ -573,6 +609,9 @@ func _on_happy_pressed() -> void:
 
 
 func _on_sleep_pressed() -> void:
+	if !achivement["firstnap"]:
+		achivement["firstnap"] = true
+		$"statslayer/CanvasLayer/StatsWindow/acheviements panel/Done2".visible = true
 	ovveridesleep = true
 	change_state(State.SLEEP)
 	state_timer = 9999
@@ -656,6 +695,9 @@ func _on_neckarea_input_event(viewport: Node, event: InputEvent, shape_idx: int)
 				dragging = false
 				falling = true
 func startzoomies():
+	if !achivement["hadzoomers"]:
+		achivement["hadzoomers"] = true
+		$"statslayer/CanvasLayer/StatsWindow/acheviements panel/Done5".visible = true
 	if zoomies:
 		return
 		
@@ -728,3 +770,11 @@ func resettoy():
 	
 	toy_window.position = window.position + Vector2i(80, 80)
 	print("toy systm resetted")
+
+
+func _on_ahcevement_panel_opener_pressed() -> void:
+	
+	var panel = $"statslayer/CanvasLayer/StatsWindow/acheviements panel"
+	panel.visible = !panel.visible
+#added achievements panel with written attainabale achivemnets 
+#and if reached criteria it will display a tick mark yay
