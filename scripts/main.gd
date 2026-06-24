@@ -131,7 +131,7 @@ func _ready() -> void:
 	updallstatpages()
 	updui()
 
-	
+	last_pos = Vector2(get_window().position)
 	#more behavior code
 	change_state(State.MOVE)
 	state_timer = randf_range(3, 6)
@@ -262,6 +262,7 @@ func _physics_process(delta):
 	var current_pos = Vector2(get_window().position)
 	distancetraveled += int(current_pos.distance_to(last_pos))
 	last_pos = current_pos
+	updstat_book()
 	if petting and !pouncing:
 		return
 	var window = get_window()
@@ -522,7 +523,7 @@ func _on_scarearea_input_event(viewport: Node, event: InputEvent, shape_idx: int
 
 	if event is InputEventMouseButton and event.pressed:
 		if  !achivement["gotpinched"]:
-			achivement["gotpinced"] = true
+			achivement["gotpinched"] = true
 			$"statslayer/CanvasLayer/StatsWindow/acheviements panel/Done6".visible = true
 		change_state(State.SCARED)
 		happy -= 10
@@ -841,7 +842,7 @@ func _on_backpage_pressed() -> void:
 	updallstatpages()
 
 func updstat_book():
-	age_label.text = str(ageminutes)
+	age_label.text = str(int(ageminutes / 60)) + " hrs"
 	weight_label.text = str(wheight) + "KG"
 	size_label.text = str(size)
 	phase_label.text = phase
@@ -851,11 +852,31 @@ func updstat_book():
 	times_petted_label.text = str(timespetted)
 	hoursslept_label.text = str(round(hoursslept * 10) / 10)
 	
-	distancetrvled_label.text = str(distancetraveled)
-	
+	distancetrvled_label.text = str(round(distancetraveled / 100.0)) + " m"
 	var achcount = 0
 	for a in achivement:
 			if achivement[a]:
 				achcount += 1
 				
 	achivements_label.text = str(achcount) + "/6"
+
+
+func _on_age_timer_timeout() -> void:
+	ageminutes + 5
+	if ageminutes >= 60:
+		phase = "Elder"
+		size = "Large"
+		wheight = 8
+	elif ageminutes >= 30:
+		phase = "Adult"
+		size = "Large"
+		wheight = 4
+	elif  ageminutes >= 15:
+		phase = "Teen"
+		size = "Meduim"
+		wheight = 4
+	else:
+		phase = "Baby"
+		size = "Small"
+		wheight = 2
+	updstat_book()

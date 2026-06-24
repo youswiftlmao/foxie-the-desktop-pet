@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://cenovfmomj7k2" path="res://scripts/food_window.gd" id="10_ya4ey"]
 [ext_resource type="Texture2D" uid="uid://bybxlds8cf34u" path="res://assets/DONE.png" id="11_muem4"]
 [ext_resource type="Texture2D" uid="uid://buen1b7p8c1u" path="res://assets/backbrtn.png" id="12_0ld40"]
+[ext_resource type="Script" uid="uid://4i5ivlostqfr" path="res://scripts/allstats_window.gd" id="12_2wyq8"]
 [ext_resource type="Texture2D" uid="uid://cl3nue0rnw44n" path="res://assets/age.png" id="12_jscy8"]
 [ext_resource type="Texture2D" uid="uid://dvaaaaxp8o5mx" path="res://assets/front buton.png" id="13_gqmmt"]
 [ext_resource type="Texture2D" uid="uid://q533g4ruect7" path="res://assets/ball.png" id="13_jbj1t"]
@@ -22,6 +23,9 @@
 [ext_resource type="Texture2D" uid="uid://c2er80vramgsm" path="res://assets/bone.png" id="14_muem4"]
 [ext_resource type="Texture2D" uid="uid://cyqwq4ar8rhu3" path="res://assets/size.png" id="14_y6deb"]
 [ext_resource type="Texture2D" uid="uid://4n2bga3jqgvl" path="res://assets/feather.png" id="15_dp3eg"]
+[ext_resource type="Texture2D" uid="uid://b3aovdsjru7s8" path="res://assets/pettedtimes.png" id="15_og1vs"]
+[ext_resource type="Texture2D" uid="uid://dsv0gcoub27rb" path="res://assets/trabvlelled.png" id="16_2wyq8"]
+[ext_resource type="Texture2D" uid="uid://bel1tnkv0g77n" path="res://assets/trogphy.png" id="17_vxglm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0wfyh"]
 atlas = ExtResource("1_o5qli")
@@ -753,6 +757,7 @@ texture_normal = ExtResource("11_muem4")
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(300, 300)
+script = ExtResource("12_2wyq8")
 
 [node name="pagecontainer" type="Control" parent="statslayer/CanvasLayer/allstats window" unique_id=455033680]
 layout_mode = 3
@@ -855,12 +860,12 @@ scale = Vector2(0.26, 0.26)
 texture = ExtResource("4_o6xl0")
 
 [node name="page2" type="Control" parent="statslayer/CanvasLayer/allstats window/pagecontainer" unique_id=2092740034]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="GuiBg2" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2" unique_id=1058860826]
-visible = false
 texture_filter = 1
 position = Vector2(150.99998, 150)
 scale = Vector2(4.7, 4.7)
@@ -879,9 +884,9 @@ text = "     page 2"
 
 [node name="foodeaten" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2" unique_id=485813140]
 clip_contents = false
-offset_left = -22.97872
+offset_left = -18.936167
 offset_top = -5.106384
-offset_right = 324.82816
+offset_right = 328.87073
 offset_bottom = 68.12632
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
@@ -891,9 +896,9 @@ text = "eaten"
 
 [node name="timesplayed" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2" unique_id=215219635]
 clip_contents = false
-offset_left = -22.127657
+offset_left = -21.276596
 offset_top = 15.957445
-offset_right = 325.67923
+offset_right = 326.53027
 offset_bottom = 89.190155
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
@@ -903,9 +908,9 @@ text = "played"
 
 [node name="times petted" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2" unique_id=1222410515]
 clip_contents = false
-offset_left = 11.70213
+offset_left = 13.617023
 offset_top = 15.531914
-offset_right = 359.509
+offset_right = 361.42392
 offset_bottom = 88.764626
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
@@ -915,15 +920,37 @@ text = "petted"
 
 [node name="hoursslept" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2" unique_id=425030801]
 clip_contents = false
-offset_left = 11.489367
+offset_left = 13.191494
 offset_top = -4.680852
-offset_right = 359.29626
+offset_right = 360.99838
 offset_bottom = 68.55185
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/normal_font = ExtResource("8_tipki")
 theme_override_font_sizes/normal_font_size = 64
 text = "slept"
+
+[node name="HungerIndicaotr" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2" unique_id=1764205650]
+position = Vector2(-16.595743, -11.276596)
+scale = Vector2(0.21276596, 0.21276596)
+texture = ExtResource("5_tipki")
+
+[node name="Sprite2D" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2" unique_id=1104111910]
+texture_filter = 1
+position = Vector2(-16.595741, 9.148937)
+scale = Vector2(0.4495924, 0.4495924)
+texture = ExtResource("10_jkv2x")
+
+[node name="Sprite2D2" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2" unique_id=2130397914]
+texture_filter = 1
+position = Vector2(16.808517, 9.574467)
+scale = Vector2(0.41178018, 0.41178018)
+texture = ExtResource("15_og1vs")
+
+[node name="Sprite2D3" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2" unique_id=879663753]
+position = Vector2(16.808514, -11.063829)
+scale = Vector2(0.21276596, 0.21276596)
+texture = ExtResource("6_85g3d")
 
 [node name="page3" type="Control" parent="statslayer/CanvasLayer/allstats window/pagecontainer" unique_id=1670408852]
 visible = false
@@ -951,9 +978,9 @@ text = "     page 3"
 [node name="distancetrvled" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page3/GuiBg3" unique_id=383698064]
 clip_contents = false
 offset_left = -25.10638
-offset_top = 4.680852
+offset_top = 0.4255333
 offset_right = 322.7005
-offset_bottom = 77.91356
+offset_bottom = 73.65823
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/normal_font = ExtResource("8_tipki")
@@ -962,15 +989,25 @@ text = "distance "
 
 [node name="achivements" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page3/GuiBg3" unique_id=1938804915]
 clip_contents = false
-offset_left = 4.6808558
-offset_top = 4.680852
-offset_right = 352.48773
-offset_bottom = 77.91356
+offset_left = 10.638303
+offset_top = 1.4893627
+offset_right = 358.4452
+offset_bottom = 74.72207
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/normal_font = ExtResource("8_tipki")
 theme_override_font_sizes/normal_font_size = 64
 text = "achievemt"
+
+[node name="Trabvlelled" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page3/GuiBg3" unique_id=777347268]
+position = Vector2(-17.872334, -8.297874)
+scale = Vector2(0.59114623, 0.59114623)
+texture = ExtResource("16_2wyq8")
+
+[node name="Trogphy" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page3/GuiBg3" unique_id=481670088]
+position = Vector2(17.446812, -7.659576)
+scale = Vector2(0.591, 0.591)
+texture = ExtResource("17_vxglm")
 
 [node name="backpage" type="TextureButton" parent="statslayer/CanvasLayer/allstats window/pagecontainer" unique_id=1502337555]
 layout_mode = 0
@@ -1048,6 +1085,10 @@ texture = ExtResource("14_muem4")
 position = Vector2(16, 16)
 texture = ExtResource("15_dp3eg")
 
+[node name="AgeTimer" type="Timer" parent="." unique_id=189055579]
+wait_time = 300.0
+autostart = true
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="input_event" from="AnimatedSprite2D/body area" to="." method="_on_body_area_input_event"]
 [connection signal="mouse_entered" from="AnimatedSprite2D/body area" to="." method="_on_body_area_mouse_entered"]
@@ -1066,3 +1107,4 @@ texture = ExtResource("15_dp3eg")
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/ahcevement panel opener" to="." method="_on_ahcevement_panel_opener_pressed"]
 [connection signal="pressed" from="statslayer/CanvasLayer/allstats window/pagecontainer/backpage" to="." method="_on_backpage_pressed"]
 [connection signal="pressed" from="statslayer/CanvasLayer/allstats window/pagecontainer/nextpage" to="." method="_on_nextpage_pressed"]
+[connection signal="timeout" from="AgeTimer" to="." method="_on_age_timer_timeout"]
