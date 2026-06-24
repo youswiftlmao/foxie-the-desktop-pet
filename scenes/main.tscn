@@ -13,9 +13,14 @@
 [ext_resource type="Texture2D" uid="uid://p15c8res87jk" path="res://assets/palybtn.png" id="10_jkv2x"]
 [ext_resource type="Script" uid="uid://cenovfmomj7k2" path="res://scripts/food_window.gd" id="10_ya4ey"]
 [ext_resource type="Texture2D" uid="uid://bybxlds8cf34u" path="res://assets/DONE.png" id="11_muem4"]
+[ext_resource type="Texture2D" uid="uid://buen1b7p8c1u" path="res://assets/backbrtn.png" id="12_0ld40"]
+[ext_resource type="Texture2D" uid="uid://cl3nue0rnw44n" path="res://assets/age.png" id="12_jscy8"]
+[ext_resource type="Texture2D" uid="uid://dvaaaaxp8o5mx" path="res://assets/front buton.png" id="13_gqmmt"]
 [ext_resource type="Texture2D" uid="uid://q533g4ruect7" path="res://assets/ball.png" id="13_jbj1t"]
 [ext_resource type="Script" uid="uid://bfqtsb3pcn7sx" path="res://scripts/toys_window.gd" id="13_muem4"]
+[ext_resource type="Texture2D" uid="uid://5qhpa1a1swbm" path="res://assets/weitgh.png" id="13_pm3ni"]
 [ext_resource type="Texture2D" uid="uid://c2er80vramgsm" path="res://assets/bone.png" id="14_muem4"]
+[ext_resource type="Texture2D" uid="uid://cyqwq4ar8rhu3" path="res://assets/size.png" id="14_y6deb"]
 [ext_resource type="Texture2D" uid="uid://4n2bga3jqgvl" path="res://assets/feather.png" id="15_dp3eg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0wfyh"]
@@ -744,31 +749,30 @@ offset_bottom = 65.0
 scale = Vector2(1.1581107, 1.1581107)
 texture_normal = ExtResource("11_muem4")
 
-[node name="stats window" type="Window" parent="statslayer/CanvasLayer" unique_id=1234608441]
+[node name="allstats window" type="Window" parent="statslayer/CanvasLayer" unique_id=1234608441]
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(300, 300)
 
-[node name="pagecontainer" type="Control" parent="statslayer/CanvasLayer/stats window" unique_id=455033680]
+[node name="pagecontainer" type="Control" parent="statslayer/CanvasLayer/allstats window" unique_id=455033680]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="page1" type="Control" parent="statslayer/CanvasLayer/stats window/pagecontainer" unique_id=853602335]
-visible = false
+[node name="page1" type="Control" parent="statslayer/CanvasLayer/allstats window/pagecontainer" unique_id=853602335]
 custom_minimum_size = Vector2(300, 300)
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="GuiBg" type="Sprite2D" parent="statslayer/CanvasLayer/stats window/pagecontainer/page1" unique_id=444600981]
+[node name="GuiBg" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page1" unique_id=444600981]
 texture_filter = 1
 position = Vector2(150.99998, 150)
 scale = Vector2(4.7, 4.7)
 texture = ExtResource("3_tefeu")
 
-[node name="maintag" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page1/GuiBg" unique_id=239949397]
+[node name="maintag" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page1/GuiBg" unique_id=239949397]
 offset_left = -24.255316
 offset_top = -29.148937
 offset_right = 323.55157
@@ -779,37 +783,37 @@ theme_override_fonts/normal_font = ExtResource("8_tipki")
 theme_override_font_sizes/normal_font_size = 64
 text = " all time stats"
 
-[node name="age" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page1/GuiBg" unique_id=366139380]
+[node name="age" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page1/GuiBg" unique_id=366139380]
 clip_contents = false
-offset_left = -24.893616
-offset_top = -3.6170228
-offset_right = 260.21277
-offset_bottom = 75.99865
+offset_left = -18.297867
+offset_top = -3.617035
+offset_right = 266.80853
+offset_bottom = 75.998634
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/normal_font = ExtResource("8_tipki")
 theme_override_font_sizes/normal_font_size = 64
-text = "  age"
+text = "age"
 vertical_alignment = 1
 
-[node name="weight" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page1/GuiBg" unique_id=371833954]
+[node name="weight" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page1/GuiBg" unique_id=371833954]
 clip_contents = false
-offset_left = 7.659579
-offset_top = -3.617021
-offset_right = 355.46646
-offset_bottom = 69.615685
+offset_left = 12.340424
+offset_top = -3.617035
+offset_right = 360.1473
+offset_bottom = 69.61567
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/normal_font = ExtResource("8_tipki")
 theme_override_font_sizes/normal_font_size = 64
 text = "weight"
 
-[node name="phase" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page1/GuiBg" unique_id=1925924100]
+[node name="phase" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page1/GuiBg" unique_id=1925924100]
 clip_contents = false
-offset_left = -25.10638
-offset_top = 18.297876
-offset_right = 228.08513
-offset_bottom = 91.53057
+offset_left = -19.361698
+offset_top = 19.14894
+offset_right = 233.8298
+offset_bottom = 92.38164
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/normal_font = ExtResource("8_tipki")
@@ -818,30 +822,51 @@ text = "phase"
 fit_content = true
 vertical_alignment = 1
 
-[node name="size" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page1/GuiBg" unique_id=344064116]
+[node name="size" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page1/GuiBg" unique_id=344064116]
 clip_contents = false
-offset_left = 10.21277
-offset_top = 17.659575
-offset_right = 358.01965
-offset_bottom = 90.89229
+offset_left = 14.042559
+offset_top = 18.936172
+offset_right = 361.84946
+offset_bottom = 92.168884
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/normal_font = ExtResource("8_tipki")
 theme_override_font_sizes/normal_font_size = 64
 text = "size"
 
-[node name="page2" type="Control" parent="statslayer/CanvasLayer/stats window/pagecontainer" unique_id=2092740034]
+[node name="Age" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page1/GuiBg" unique_id=2013788122]
+position = Vector2(-15.106373, -11.0638275)
+scale = Vector2(0.5129885, 0.5129885)
+texture = ExtResource("12_jscy8")
+
+[node name="Weitgh" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page1/GuiBg" unique_id=753015857]
+position = Vector2(15.106392, -10.851065)
+scale = Vector2(0.513, 0.513)
+texture = ExtResource("13_pm3ni")
+
+[node name="Size" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page1/GuiBg" unique_id=761767742]
+position = Vector2(15.319157, 11.489363)
+scale = Vector2(0.513, 0.513)
+texture = ExtResource("14_y6deb")
+
+[node name="Happyindicator" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page1/GuiBg" unique_id=1570432703]
+position = Vector2(-15.319145, 11.702141)
+scale = Vector2(0.26, 0.26)
+texture = ExtResource("4_o6xl0")
+
+[node name="page2" type="Control" parent="statslayer/CanvasLayer/allstats window/pagecontainer" unique_id=2092740034]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="GuiBg2" type="Sprite2D" parent="statslayer/CanvasLayer/stats window/pagecontainer/page2" unique_id=1058860826]
+[node name="GuiBg2" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2" unique_id=1058860826]
+visible = false
 texture_filter = 1
 position = Vector2(150.99998, 150)
 scale = Vector2(4.7, 4.7)
 texture = ExtResource("3_tefeu")
 
-[node name="maintag" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page2/GuiBg2" unique_id=1609601125]
+[node name="maintag" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2" unique_id=1609601125]
 offset_left = -24.255316
 offset_top = -29.148937
 offset_right = 323.55157
@@ -852,65 +877,116 @@ theme_override_fonts/normal_font = ExtResource("8_tipki")
 theme_override_font_sizes/normal_font_size = 64
 text = "     page 2"
 
-[node name="foodeaten" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page2/GuiBg2" unique_id=485813140]
+[node name="foodeaten" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2" unique_id=485813140]
 clip_contents = false
-offset_left = -24.893614
-offset_top = -5.31915
-offset_right = 322.91327
-offset_bottom = 67.91355
+offset_left = -22.97872
+offset_top = -5.106384
+offset_right = 324.82816
+offset_bottom = 68.12632
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/normal_font = ExtResource("8_tipki")
 theme_override_font_sizes/normal_font_size = 64
 text = "eaten"
 
-[node name="timesplayed" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page2/GuiBg2" unique_id=215219635]
+[node name="timesplayed" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2" unique_id=215219635]
 clip_contents = false
-offset_left = -28.936169
-offset_top = 21.063831
-offset_right = 318.87073
-offset_bottom = 94.29654
+offset_left = -22.127657
+offset_top = 15.957445
+offset_right = 325.67923
+offset_bottom = 89.190155
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/normal_font = ExtResource("8_tipki")
 theme_override_font_sizes/normal_font_size = 64
-text = "  played"
+text = "played"
 
-[node name="times petted" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page2/GuiBg2" unique_id=1222410515]
+[node name="times petted" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2" unique_id=1222410515]
 clip_contents = false
-offset_left = -24.255316
-offset_top = -29.148937
-offset_right = 323.55157
-offset_bottom = 44.083767
+offset_left = 11.70213
+offset_top = 15.531914
+offset_right = 359.509
+offset_bottom = 88.764626
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/normal_font = ExtResource("8_tipki")
 theme_override_font_sizes/normal_font_size = 64
-text = "  petted"
+text = "petted"
 
-[node name="hoursslept" type="RichTextLabel" parent="statslayer/CanvasLayer/stats window/pagecontainer/page2/GuiBg2" unique_id=425030801]
+[node name="hoursslept" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2" unique_id=425030801]
 clip_contents = false
-offset_left = -24.255316
-offset_top = -29.148937
-offset_right = 323.55157
-offset_bottom = 44.083767
+offset_left = 11.489367
+offset_top = -4.680852
+offset_right = 359.29626
+offset_bottom = 68.55185
 scale = Vector2(0.1, 0.1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/normal_font = ExtResource("8_tipki")
 theme_override_font_sizes/normal_font_size = 64
-text = "     page 2"
+text = "slept"
 
-[node name="page3" type="Control" parent="statslayer/CanvasLayer/stats window/pagecontainer" unique_id=1670408852]
+[node name="page3" type="Control" parent="statslayer/CanvasLayer/allstats window/pagecontainer" unique_id=1670408852]
 visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="GuiBg3" type="Sprite2D" parent="statslayer/CanvasLayer/stats window/pagecontainer/page3" unique_id=36054798]
+[node name="GuiBg3" type="Sprite2D" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page3" unique_id=36054798]
 texture_filter = 1
 position = Vector2(150.99998, 150)
 scale = Vector2(4.7, 4.7)
 texture = ExtResource("3_tefeu")
+
+[node name="maintag" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page3/GuiBg3" unique_id=1476262323]
+offset_left = -24.255316
+offset_top = -29.148937
+offset_right = 323.55157
+offset_bottom = 44.083767
+scale = Vector2(0.15688843, 0.15688843)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 64
+text = "     page 3"
+
+[node name="distancetrvled" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page3/GuiBg3" unique_id=383698064]
+clip_contents = false
+offset_left = -25.10638
+offset_top = 4.680852
+offset_right = 322.7005
+offset_bottom = 77.91356
+scale = Vector2(0.1, 0.1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 64
+text = "distance "
+
+[node name="achivements" type="RichTextLabel" parent="statslayer/CanvasLayer/allstats window/pagecontainer/page3/GuiBg3" unique_id=1938804915]
+clip_contents = false
+offset_left = 4.6808558
+offset_top = 4.680852
+offset_right = 352.48773
+offset_bottom = 77.91356
+scale = Vector2(0.1, 0.1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_tipki")
+theme_override_font_sizes/normal_font_size = 64
+text = "achievemt"
+
+[node name="backpage" type="TextureButton" parent="statslayer/CanvasLayer/allstats window/pagecontainer" unique_id=1502337555]
+layout_mode = 0
+offset_left = 119.0
+offset_top = 184.0
+offset_right = 151.0
+offset_bottom = 216.0
+texture_normal = ExtResource("12_0ld40")
+
+[node name="nextpage" type="TextureButton" parent="statslayer/CanvasLayer/allstats window/pagecontainer" unique_id=166452869]
+layout_mode = 0
+offset_left = 151.0
+offset_top = 184.0
+offset_right = 183.0
+offset_bottom = 216.0
+texture_normal = ExtResource("13_gqmmt")
 
 [node name="food window" type="Window" parent="." unique_id=1187842874]
 transparent_bg = true
@@ -988,3 +1064,5 @@ texture = ExtResource("15_dp3eg")
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/sleep+" to="." method="_on_sleep_pressed"]
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/playbtn" to="." method="_on_playbtn_pressed"]
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/ahcevement panel opener" to="." method="_on_ahcevement_panel_opener_pressed"]
+[connection signal="pressed" from="statslayer/CanvasLayer/allstats window/pagecontainer/backpage" to="." method="_on_backpage_pressed"]
+[connection signal="pressed" from="statslayer/CanvasLayer/allstats window/pagecontainer/nextpage" to="." method="_on_nextpage_pressed"]

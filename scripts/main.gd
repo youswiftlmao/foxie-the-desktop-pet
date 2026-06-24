@@ -90,20 +90,45 @@ var achivement = {
 
 
 #statiscits panel var like amt of time done (action)
-var hoursslept
-var foodeaten
-var age
-var distancetraveled
-var timesplayed
-var timepicked
-var timespetted
-var wheight
-var phase
-var size #starts out small as grows scale sdoes too and kgs yeah
+var hoursslept := 0.0
+var foodeaten := 0
+var ageminutes := 0.0
+var distancetraveled := 0
+var timesplayed := 0
+var timepicked := 0
+var timespetted := 0
+var wheight := 1.0
+var phase := "baby"
+var size := "small"
+ #starts out small as grows scale sdoes too and kgs yeah
 
+
+var currentpage := 0
+var totalpages := 3
+
+@onready var page_1: Control = $"statslayer/CanvasLayer/allstats window/pagecontainer/page1"
+@onready var page_2: Control = $"statslayer/CanvasLayer/allstats window/pagecontainer/page2"
+@onready var page_3: Control = $"statslayer/CanvasLayer/allstats window/pagecontainer/page3"
+
+#page 1 labels
+@onready var age_label = $"statslayer/CanvasLayer/allstats window/pagecontainer/page1/GuiBg/age"
+@onready var weight_label = $"statslayer/CanvasLayer/allstats window/pagecontainer/page1/GuiBg/weight"
+@onready var phase_label= $"statslayer/CanvasLayer/allstats window/pagecontainer/page1/GuiBg/phase"
+@onready var size_label = $"statslayer/CanvasLayer/allstats window/pagecontainer/page1/GuiBg/size"
+#page2 labels
+@onready var foodeaten_label = $"statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2/foodeaten"
+@onready var timesplayed_label = $"statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2/timesplayed"
+@onready var times_petted_label = $"statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2/times petted"
+@onready var hoursslept_label = $"statslayer/CanvasLayer/allstats window/pagecontainer/page2/GuiBg2/hoursslept"
+#page THU REEEEEEEEEEEE 
+@onready var distancetrvled_label = $"statslayer/CanvasLayer/allstats window/pagecontainer/page3/GuiBg3/distancetrvled"
+@onready var achivements_label= $"statslayer/CanvasLayer/allstats window/pagecontainer/page3/GuiBg3/achivements"
+
+var last_pos := Vector2.ZERO
 
 func _ready() -> void:
-
+	updstat_book()
+	updallstatpages()
 	updui()
 
 	
@@ -234,7 +259,9 @@ func _process(delta: float) -> void:
 		#feeding is sm easier now omfddddddddds
 
 func _physics_process(delta):
-
+	var current_pos = Vector2(get_window().position)
+	distancetraveled += int(current_pos.distance_to(last_pos))
+	last_pos = current_pos
 	if petting and !pouncing:
 		return
 	var window = get_window()
@@ -588,7 +615,8 @@ func eat_food(fw):
 	hunger += fw.food_data["hunger"]
 	hunger = clamp(hunger, 0, 100)
 	energy += 5
-
+	foodeaten += 1
+	updstat_book()
 	fw.stop_food()
 	updui()
 
@@ -606,7 +634,8 @@ func _on_happy_pressed() -> void:
 	pettingmode = true
 	petingtimer = 7.0
 	print("petting start")
-
+	timespetted += 1
+	updstat_book()	
 
 func _on_sleep_pressed() -> void:
 	if !achivement["firstnap"]:
@@ -716,7 +745,8 @@ func _on_playbtn_pressed() -> void:
 		return
 	
 	pictoy()
-	
+	timesplayed += 1
+	updstat_book()
 	
 	
 func pictoy():
@@ -725,7 +755,7 @@ func pictoy():
 	toy_active = true
 	toypounced = false
 	toycaught = false
-
+	
 func showstatswindow():
 	stats_window.visible = true
 	timerunningstats = true
@@ -778,3 +808,54 @@ func _on_ahcevement_panel_opener_pressed() -> void:
 	panel.visible = !panel.visible
 #added achievements panel with written attainabale achivemnets 
 #and if reached criteria it will display a tick mark yay
+func updallstatpages():
+	
+	page_1.visible = false
+	page_2.visible = false
+	page_3.visible = false
+	
+	match  currentpage:
+		0:
+			page_1.visible = true
+		1:
+			page_2.visible = true
+		2:
+			page_3.visible = true
+
+func _on_nextpage_pressed() -> void:
+	currentpage  += 1 
+	
+	if currentpage >= totalpages:
+		currentpage  = 0
+		
+	updallstatpages()
+
+
+
+func _on_backpage_pressed() -> void:
+	currentpage -= 1
+	
+	if currentpage < 0:
+		currentpage = totalpages - 1
+		
+	updallstatpages()
+
+func updstat_book():
+	age_label.text = str(ageminutes)
+	weight_label.text = str(wheight) + "KG"
+	size_label.text = str(size)
+	phase_label.text = phase
+	
+	foodeaten_label.text = str(foodeaten)
+	timesplayed_label.text = str(timesplayed)
+	times_petted_label.text = str(timespetted)
+	hoursslept_label.text = str(round(hoursslept * 10) / 10)
+	
+	distancetrvled_label.text = str(distancetraveled)
+	
+	var achcount = 0
+	for a in achivement:
+			if achivement[a]:
+				achcount += 1
+				
+	achivements_label.text = str(achcount) + "/6"
