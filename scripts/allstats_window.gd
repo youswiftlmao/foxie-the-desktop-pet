@@ -1,8 +1,11 @@
 extends Window
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-
 	borderless = true
 	transparent = true
+	
+
+	get_viewport().transparent_bg = true
+
+	size = Vector2i(300, 300)

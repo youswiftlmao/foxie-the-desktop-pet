@@ -842,23 +842,23 @@ func _on_backpage_pressed() -> void:
 	updallstatpages()
 
 func updstat_book():
-	age_label.text = str(int(ageminutes / 60)) + " hrs"
-	weight_label.text = str(wheight) + "KG"
-	size_label.text = str(size)
-	phase_label.text = phase
+	age_label.text = "Age: " + str(int(ageminutes / 60)) + " hrs"
+	weight_label.text = "Weight: " +  str(wheight) + "KG"
+	size_label.text = "Size: " + str(size)
+	phase_label.text = "Phase: " + phase
 	
-	foodeaten_label.text = str(foodeaten)
-	timesplayed_label.text = str(timesplayed)
-	times_petted_label.text = str(timespetted)
-	hoursslept_label.text = str(round(hoursslept * 10) / 10)
+	foodeaten_label.text = "Amt eaten: " + str(foodeaten)
+	timesplayed_label.text = "Amt played " + str(timesplayed)
+	times_petted_label.text = "Total pets " + str(timespetted)
+	hoursslept_label.text = "Hrs slept " +  str(round(hoursslept * 10) / 10)
 	
-	distancetrvled_label.text = str(round(distancetraveled / 100.0)) + " m"
+	distancetrvled_label.text = "Walked: " + str(round(distancetraveled / 100.0)) + "m"
 	var achcount = 0
 	for a in achivement:
 			if achivement[a]:
 				achcount += 1
 				
-	achivements_label.text = str(achcount) + "/6"
+	achivements_label.text = "Achmnts "+str(achcount) + "/6"
 
 
 func _on_age_timer_timeout() -> void:
