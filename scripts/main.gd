@@ -5,6 +5,7 @@ var direction = Vector2(1, 0)
 @onready var food_window = $"food window"
 #behavior vars 
 @onready var stats_window = $statslayer/CanvasLayer/StatsWindow
+@onready var allstats_window: Window = $"statslayer/CanvasLayer/allstats window"
 #feeding vars ig im hungry
 var food = [
 	{"name": "apple","hunger": 20},
@@ -125,12 +126,20 @@ var totalpages := 3
 @onready var achivements_label= $"statslayer/CanvasLayer/allstats window/pagecontainer/page3/GuiBg3/achivements"
 
 var last_pos := Vector2.ZERO
+#sounds
+@onready var eat: AudioStreamPlayer2D = $Node2D/eat
+@onready var scared_picktoy: AudioStreamPlayer2D = $Node2D/scared_picktoy
+@onready var ding_sfx: AudioStreamPlayer2D = $"Node2D/ding sfx"
+@onready var lofi_bgmusic: AudioStreamPlayer2D = $"Node2D/lofi bgmusic"
+@onready var purring: AudioStreamPlayer2D = $Node2D/purring
+
+
 
 func _ready() -> void:
 	updstat_book()
 	updallstatpages()
 	updui()
-
+	lofi_bgmusic.play()
 	last_pos = Vector2(get_window().position)
 	#more behavior code
 	change_state(State.MOVE)
@@ -203,6 +212,7 @@ func _process(delta: float) -> void:
 
 		if mousevel.length() > 20:
 			happy = clamp(happy + 0.1, 0, 100)
+			
 			print("happy")
 	if pettingmode:
 		petingtimer -= delta
@@ -317,6 +327,7 @@ func _physics_process(delta):
 		if window.position.x > usablrect.end.x - 300:
 			if !achivement["played"]:
 				achivement["played"] = true
+				ding_sfx.play()
 				$"statslayer/CanvasLayer/StatsWindow/acheviements panel/Done4".visible = true
 			droptoy()
 			resettoy()
@@ -524,8 +535,10 @@ func _on_scarearea_input_event(viewport: Node, event: InputEvent, shape_idx: int
 	if event is InputEventMouseButton and event.pressed:
 		if  !achivement["gotpinched"]:
 			achivement["gotpinched"] = true
+			ding_sfx.play()
 			$"statslayer/CanvasLayer/StatsWindow/acheviements panel/Done6".visible = true
 		change_state(State.SCARED)
+		scared_picktoy.play()
 		happy -= 10
 
 
@@ -610,9 +623,11 @@ func _on_hunger_pressed() -> void:
 	pickfood()
 	
 func eat_food(fw):
+	eat.play()
 	if !achivement["atefood"]:
 		achivement["atefood"] = true
 		$"statslayer/CanvasLayer/StatsWindow/acheviements panel/Done3".visible = true
+		ding_sfx.play()
 	hunger += fw.food_data["hunger"]
 	hunger = clamp(hunger, 0, 100)
 	energy += 5
@@ -632,15 +647,17 @@ func _on_petting_area_mouse_exited() -> void:
 	print("MOUSE GONE")
 
 func _on_happy_pressed() -> void:
+	purring.play()
 	pettingmode = true
 	petingtimer = 7.0
 	print("petting start")
 	timespetted += 1
-	updstat_book()	
+	updstat_book()
 
 func _on_sleep_pressed() -> void:
 	if !achivement["firstnap"]:
 		achivement["firstnap"] = true
+		ding_sfx.play()
 		$"statslayer/CanvasLayer/StatsWindow/acheviements panel/Done2".visible = true
 	ovveridesleep = true
 	change_state(State.SLEEP)
@@ -727,6 +744,7 @@ func _on_neckarea_input_event(viewport: Node, event: InputEvent, shape_idx: int)
 func startzoomies():
 	if !achivement["hadzoomers"]:
 		achivement["hadzoomers"] = true
+		ding_sfx.play()
 		$"statslayer/CanvasLayer/StatsWindow/acheviements panel/Done5".visible = true
 	if zoomies:
 		return
@@ -756,7 +774,7 @@ func pictoy():
 	toy_active = true
 	toypounced = false
 	toycaught = false
-	
+	scared_picktoy.play()
 func showstatswindow():
 	stats_window.visible = true
 	timerunningstats = true
@@ -862,7 +880,7 @@ func updstat_book():
 
 
 func _on_age_timer_timeout() -> void:
-	ageminutes + 5
+	ageminutes += 5	
 	if ageminutes >= 60:
 		phase = "Elder"
 		size = "Large"
@@ -880,3 +898,7 @@ func _on_age_timer_timeout() -> void:
 		size = "Small"
 		wheight = 2
 	updstat_book()
+
+
+func _on_morebtn_pressed() -> void:
+	allstats_window.visible = !allstats_window.visible

@@ -26,6 +26,11 @@
 [ext_resource type="Texture2D" uid="uid://b3aovdsjru7s8" path="res://assets/pettedtimes.png" id="15_og1vs"]
 [ext_resource type="Texture2D" uid="uid://dsv0gcoub27rb" path="res://assets/trabvlelled.png" id="16_2wyq8"]
 [ext_resource type="Texture2D" uid="uid://bel1tnkv0g77n" path="res://assets/trogphy.png" id="17_vxglm"]
+[ext_resource type="AudioStream" uid="uid://b677jt5qtyd48" path="res://sounds/ytmp3free.cc_cat-purring-sound-effect-youtubemp3free.org.mp3" id="27_tel4y"]
+[ext_resource type="AudioStream" uid="uid://bc6g1x1nsw0j5" path="res://sounds/ytmp3free.cc_fox-eating-nr-3-minecraft-sound-sound-effect-for-editing-youtubemp3free.org.mp3" id="28_qkpxi"]
+[ext_resource type="AudioStream" uid="uid://dkxkonmmh01h5" path="res://sounds/ytmp3free.cc_squeaky-toy-sound-effect-youtubemp3free.org.mp3" id="29_5q0nq"]
+[ext_resource type="AudioStream" uid="uid://c5m1owkjydhdw" path="res://sounds/ytmp3free.cc_ding-sound-effect-youtubemp3free.org.mp3" id="30_dgi5k"]
+[ext_resource type="AudioStream" uid="uid://dljuqhh7uqkjf" path="res://sounds/ytmp3free.cc_no-copyright-music-lofi-lofi-loop-1-minute-looping-youtubemp3free.org.mp3" id="31_j8jky"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0wfyh"]
 atlas = ExtResource("1_o5qli")
@@ -508,6 +513,7 @@ autostart = true
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(300, 300)
+visible = false
 always_on_top = true
 script = ExtResource("3_o6xl0")
 
@@ -1115,6 +1121,29 @@ texture = ExtResource("15_dp3eg")
 wait_time = 300.0
 autostart = true
 
+[node name="Node2D" type="Node2D" parent="." unique_id=1181497610]
+
+[node name="purring" type="AudioStreamPlayer2D" parent="Node2D" unique_id=684702257]
+stream = ExtResource("27_tel4y")
+volume_db = -12.968
+
+[node name="eat" type="AudioStreamPlayer2D" parent="Node2D" unique_id=688117747]
+stream = ExtResource("28_qkpxi")
+volume_db = -12.409
+
+[node name="scared_picktoy" type="AudioStreamPlayer2D" parent="Node2D" unique_id=611796005]
+stream = ExtResource("29_5q0nq")
+volume_db = -17.136
+
+[node name="ding sfx" type="AudioStreamPlayer2D" parent="Node2D" unique_id=611455523]
+stream = ExtResource("30_dgi5k")
+volume_db = -16.25
+
+[node name="lofi bgmusic" type="AudioStreamPlayer2D" parent="Node2D" unique_id=1032311806]
+stream = ExtResource("31_j8jky")
+volume_db = -31.079
+parameters/looping = true
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="input_event" from="AnimatedSprite2D/body area" to="." method="_on_body_area_input_event"]
 [connection signal="mouse_entered" from="AnimatedSprite2D/body area" to="." method="_on_body_area_mouse_entered"]
@@ -1131,6 +1160,7 @@ autostart = true
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/sleep+" to="." method="_on_sleep_pressed"]
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/playbtn" to="." method="_on_playbtn_pressed"]
 [connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/ahcevement panel opener" to="." method="_on_ahcevement_panel_opener_pressed"]
+[connection signal="pressed" from="statslayer/CanvasLayer/StatsWindow/morebtn" to="." method="_on_morebtn_pressed"]
 [connection signal="pressed" from="statslayer/CanvasLayer/allstats window/pagecontainer/backpage" to="." method="_on_backpage_pressed"]
 [connection signal="pressed" from="statslayer/CanvasLayer/allstats window/pagecontainer/nextpage" to="." method="_on_nextpage_pressed"]
 [connection signal="timeout" from="AgeTimer" to="." method="_on_age_timer_timeout"]
