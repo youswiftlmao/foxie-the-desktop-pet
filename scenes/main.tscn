@@ -1125,7 +1125,7 @@ autostart = true
 
 [node name="purring" type="AudioStreamPlayer2D" parent="Node2D" unique_id=684702257]
 stream = ExtResource("27_tel4y")
-volume_db = -12.968
+volume_db = -17.695
 
 [node name="eat" type="AudioStreamPlayer2D" parent="Node2D" unique_id=688117747]
 stream = ExtResource("28_qkpxi")
@@ -1133,11 +1133,11 @@ volume_db = -12.409
 
 [node name="scared_picktoy" type="AudioStreamPlayer2D" parent="Node2D" unique_id=611796005]
 stream = ExtResource("29_5q0nq")
-volume_db = -17.136
+volume_db = -26.295
 
 [node name="ding sfx" type="AudioStreamPlayer2D" parent="Node2D" unique_id=611455523]
 stream = ExtResource("30_dgi5k")
-volume_db = -16.25
+volume_db = -20.682
 
 [node name="lofi bgmusic" type="AudioStreamPlayer2D" parent="Node2D" unique_id=1032311806]
 stream = ExtResource("31_j8jky")

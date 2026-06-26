@@ -902,3 +902,11 @@ func _on_age_timer_timeout() -> void:
 
 func _on_morebtn_pressed() -> void:
 	allstats_window.visible = !allstats_window.visible
+#savesystem?
+func savadata():
+	return{
+		"hunger": hunger,
+		"happy": happy,
+		"energy": energy,
+		
+	}
