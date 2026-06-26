@@ -903,10 +903,48 @@ func _on_age_timer_timeout() -> void:
 func _on_morebtn_pressed() -> void:
 	allstats_window.visible = !allstats_window.visible
 #savesystem?
-func savadata():
+func getsavadata():
 	return{
 		"hunger": hunger,
 		"happy": happy,
 		"energy": energy,
 		
+		"ageminutes": ageminutes,
+		"foodeaten": foodeaten,
+		"timesplayed": timesplayed,
+		"timespetted": timespetted,
+		"distancetraveled": distancetraveled,
+		"hoursslept": hoursslept,
+		
+		"wheight": wheight,
+		"phase": phase,
+		"size": size,
+		
+		"achivement" : achivement
+		
 	}
+func savegame():
+	var file = FileAccess.open("user://pet_save.json", FileAccess.WRITE)
+	var data = getsavadata()
+	file.store_string(JSON.stringify(data))
+	
+	file.close()
+	print("Game Saved")
+	
+	
+func loadgame():
+	if !FileAccess.file_exists("user://pet_save.json"):
+		return
+	var file = FileAccess.open("user://pet_save.json", FileAccess.READ)
+	var data = JSON.parse_string(file.get_as_text())
+	
+	file.close()
+	
+	if data == null:
+		return
+		
+	hunger = data.get("hunger", 100)
+	happy = data.get("happy", 100)
+	energy = data.get("energy", 100)
+	
+	ageminutes = data.get(""
