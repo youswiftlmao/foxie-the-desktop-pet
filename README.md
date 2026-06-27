@@ -3,6 +3,9 @@
 Foxie wanders around your screen, sleeps, plays with toys, gets hungry, grows older, and reacts to how you interact with him. Keep him happy, fed, and rested while watching him grow through different life stages.
 (INSTALLATION)
 Download it from the link and simply click the file to open and bravo hes alive!!!
+https://youswift123.itch.io/foxie-the-desktop-pet
+
+
 btw rn dvd mode is broken so if it happens just close and relaunch and it will all be fine
 
 ## Features
