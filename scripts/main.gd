@@ -133,12 +133,22 @@ var last_pos := Vector2.ZERO
 @onready var lofi_bgmusic: AudioStreamPlayer2D = $"Node2D/lofi bgmusic"
 @onready var purring: AudioStreamPlayer2D = $Node2D/purring
 
+var autosave_timer := 10.0
 
+
+#making a super rare dvd mode where he will behave like the dvd screensaver for a minute 
+
+var dvdmode = false
+var dvdtimer = 0.0 
+var dvd_dir = Vector2(1, 1).normalized()
 
 func _ready() -> void:
 	updstat_book()
 	updallstatpages()
 	updui()
+	loadgame()
+	start_dvd_mode()
+	
 	lofi_bgmusic.play()
 	last_pos = Vector2(get_window().position)
 	#more behavior code
@@ -177,6 +187,13 @@ func _ready() -> void:
 
 	
 func _process(delta: float) -> void:
+	
+	autosave_timer -= delta
+	if autosave_timer <= 0:
+		print("saved")
+		savegame()
+		autosave_timer = 10.0
+
 	if toyvisible() \
 	and toythorwn \
 	and !toycaught \
@@ -267,12 +284,56 @@ func _process(delta: float) -> void:
 		if mouth_pos.distance_to(food_pos) < 100:
 			eat_food(food_window)
 		#feeding is sm easier now omfddddddddds
-
+			
+	if dvdmode:
+		dvdtimer -= delta
+		
+		var hue = fmod(Time.get_ticks_msec() / 1000.0, 1.0)
+		$AnimatedSprite2D.modulate = Color.from_hsv(hue, 1.0, 1.0)
+		
+		if dvdtimer <= 0:
+			stop_dvd_mode()
+			
+		return
 func _physics_process(delta):
 	var current_pos = Vector2(get_window().position)
 	distancetraveled += int(current_pos.distance_to(last_pos))
 	last_pos = current_pos
 	updstat_book()
+	
+	if dvdmode:
+		var window = get_window()
+		var usable = DisplayServer.screen_get_usable_rect()
+		
+		window.position += Vector2i(dvd_dir * 10)
+
+		var hitwall = false
+		
+		
+		if window.position.x <= usable.position.x:
+			dvd_dir.x *= -1
+			hitwall = true
+		if window.position.x + window.size.x >= usable.end.x:
+			dvd_dir.x *= -1
+			hitwall = true
+		if window.position.y  <= usable.position.y:
+			dvd_dir.y *= -1
+			hitwall = true
+			
+		var floor_y = usable.end.y - window.size.y
+		
+		
+		if window.position.y >= floor_y :
+			window.position.y = floor_y
+			dvd_dir.y *= -1 
+			hitwall = true
+			
+			
+			
+		if hitwall:
+			scared_picktoy.play()
+		return
+	
 	if petting and !pouncing:
 		return
 	var window = get_window()
@@ -464,6 +525,12 @@ func change_state(new_state):
 			$AnimatedSprite2D.play("move")
 
 func _on_state_timer_end():
+	
+	if randf() < 0.005:
+		start_dvd_mode()
+		return
+	
+	
 	if carryingtoy:
 		change_state(State.MOVE)
 		state_timer = randf_range(2, 5)
@@ -509,7 +576,7 @@ func _on_state_timer_end():
 		change_state(State.MOVE)
 		state_timer = randf_range(2,5)
 
-
+	
 func _on_animated_sprite_2d_animation_finished() -> void:
 
 	match current_state:
@@ -947,4 +1014,33 @@ func loadgame():
 	happy = data.get("happy", 100)
 	energy = data.get("energy", 100)
 	
-	ageminutes = data.get(""
+	ageminutes = data.get("ageminutes", 0)
+	foodeaten = data.get("foodeaten", 0)
+	timesplayed = data.get("timesplayed", 0)
+	timespetted = data.get("timespetted", 0)
+	distancetraveled = data.get("distancetraveled", 0 )
+	hoursslept = data.get("hoursslept", 0)
+	
+	wheight = data.get("wheight", 1.0)
+	phase = data.get("phase", "baby")
+	size = data.get("size", "small")
+	
+	achivement = data.get("achivement", achivement)
+	
+	print("loaded game")
+func start_dvd_mode():
+	if dvdmode:
+		return
+	dvdmode = true
+	dvdtimer = 60.0
+	
+	dvd_dir = Vector2(
+		[-1, 1].pick_random(),
+		[-1, 1].pick_random()
+	).normalized()
+	
+	print("dvd mode on")
+func stop_dvd_mode():
+	dvdmode = false
+	$AnimatedSprite2D.modulate = Color.WHITE
+	change_state(State.IDLE)
