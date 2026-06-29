@@ -6,6 +6,8 @@ Download it from the link and simply click the file to open and bravo hes alive!
 https://youswift123.itch.io/foxie-the-desktop-pet
 
 
+ALSO IMPORTANT MAKE SURE WINDOWS SCALING IS 1.25x AYE
+
 btw rn dvd mode is broken so if it happens just close and relaunch and it will all be fine
 
 ## Features
