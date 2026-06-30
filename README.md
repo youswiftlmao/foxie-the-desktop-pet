@@ -5,7 +5,7 @@ Foxie wanders around your screen, sleeps, plays with toys, gets hungry, grows ol
 Download it from the link and simply click the file to open and bravo hes alive!!!
 https://youswift123.itch.io/foxie-the-desktop-pet
 
-
+IF CURRENTLY DOWNLOAD THERE IS A BUG I CANT FIX ITS CLIPPING THE FOX AND I CANT FIND HOW TO FIX IT IT WORKS FINE ON MY COMPUTER PLEASE DONT REJECT MY PROJECT
 ALSO IMPORTANT MAKE SURE WINDOWS SCALING IS 1.25x AYE
 
 btw rn dvd mode is broken so if it happens just close and relaunch and it will all be fine
