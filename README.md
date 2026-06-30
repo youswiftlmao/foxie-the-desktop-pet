@@ -16,7 +16,7 @@ btw rn dvd mode is broken so if it happens just close and relaunch and it will a
 2. Sleeps when low on energy
 3. Occasionally gets the zoomies
 4. Reacts to pets and lots of other interactions
-5. Pick him up by his neck and drag him around (he gets annoying at times)
+
 
 
 ## Happiness System
